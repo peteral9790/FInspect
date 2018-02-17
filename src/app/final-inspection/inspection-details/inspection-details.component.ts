@@ -9,7 +9,7 @@ import { NgIf } from '@angular/common';
   styleUrls: ['./inspection-details.component.css']
 })
 export class InspectionDetailsComponent implements OnInit {
-  show: boolean = true;
+  showDetails: boolean = true;
   constructor(private inspectionService: FinalInspectionService) { }
 
   ngOnInit() {
@@ -36,11 +36,11 @@ export class InspectionDetailsComponent implements OnInit {
     alert(this.inspectionService.selectedInspection.TMSPartNumber);
   }
 
-  toggleForm() {
-    if (this.show==true) {
-      this.show = false;
+  toggleDetails() {
+    if (this.showDetails==true) {
+      this.showDetails = false;
     } else {
-      this.show = true;
+      this.showDetails = true;
     }
   }
 }

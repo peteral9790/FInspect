@@ -1,4 +1,6 @@
-<div align="center">
+<a href="#" *ngIf="!showList" (click)="toggleList()"><i class="fa fa-plus-square"></i></a>
+<a *ngIf="showList" href="#" (click)="toggleList()"><i class="fa fa-minus-square"></i></a>
+<div *ngIf="showList" align="center">
   <table class="table table-striped table-hover">
     <thead>
       <th>Part Number</th>

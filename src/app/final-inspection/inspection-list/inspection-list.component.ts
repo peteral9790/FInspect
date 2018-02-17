@@ -9,11 +9,20 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./inspection-list.component.css']
 })
 export class InspectionListComponent implements OnInit {
+  showList: boolean = true;
   inspectionHistory: FinalInspection[];
   constructor(private inspectionService: FinalInspectionService) { }
   
   ngOnInit() {
     this.inspectionService.getData("FinalInspection", "GetFinalInspectionRecords");
+  }
+
+  toggleList() {
+    if (this.showList==true) {
+      this.showList = false;
+    } else {
+      this.showList=true;
+    }
   }
 
 }
