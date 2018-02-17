@@ -1,0 +1,57 @@
+<a href="#" *ngIf="!show" (click)="toggleForm()"><i class="fa fa-plus-square"></i></a>
+<a *ngIf="show" href="#" (click)="toggleForm()"><i class="fa fa-minus-square"></i></a>
+<form *ngIf="show" #inspectionForm="ngForm" (ngSubmit)="onSubmit(inspectionForm)">
+  <input type="hidden" name="Id" #Id="ngModel" [(ngModel)]="inspectionService.selectedInspection.Id">
+  <div class="row">
+      <div class="col">
+        <input name="MiStatusBarcode" #MiStatusBarcode="ngModel" [(ngModel)]="inspectionService.selectedInspection.MiStatusBarcode" class="form-control" placeholder="Mi Status Barcode">
+      </div>      
+    </div>
+    <br />
+  <div class="row">
+    <div class="col">
+      <input name="InspectorId" #InspectorId="ngModel" [(ngModel)]="inspectionService.selectedInspection.InspectorId" class="form-control" placeholder="Employee Id" required>
+      <div class="validation-error" *ngIf="InspectorId.invalid && InspectorId.touched">This field is required.</div>
+    </div>
+    <div class="col">
+        <input name="TMSPartNumber" #TMSPartNumber="ngModel" [(ngModel)]="inspectionService.selectedInspection.TMSPartNumber" class="form-control" placeholder="Part Number" required>
+        <div class="validation-error" *ngIf="InspectorId.invalid && InspectorId.touched">This field is required.</div>
+      </div>
+  </div>
+  <br />
+  <div class="row">
+    <div class="col">
+      <input name="QuantityInspected" #QuantityInspected="ngModel" [(ngModel)]="inspectionService.selectedInspection.QuantityInspected" class="form-control" placeholder="Quantity Inspected" required>
+      <div class="validation-error" *ngIf="QuantityInspected.invalid && QuantityInspected.touched">This field is required.</div>
+    </div>
+    <div class="col">
+        <input name="QuantityAccepted" #QuantityAccepted="ngModel" [(ngModel)]="inspectionService.selectedInspection.QuantityAccepted" class="form-control" placeholder="Quantity Accepted" required>
+        <div class="validation-error" *ngIf="QuantityAccepted.invalid && QuantityAccepted.touched">This field is required.</div>
+    </div>
+  </div>
+  <br />
+  <div class="row">      
+    <div class="col">
+      <input name="InspectionType" #InspectionType="ngModel" [(ngModel)]="inspectionService.selectedInspection.InspectionType" class="form-control" placeholder="Inspection Type" required>
+      <div class="validation-error" *ngIf="InspectionType.invalid && InspectionType.touched">This field is required.</div>
+    </div>
+  </div>
+  <br />
+  <div class="col">
+    <label for="fileUpload">Upload Document: </label>
+  </div>
+  <div class="col">
+    <input id="fileUpload" type="file" class="">
+  </div>
+  <br />
+  <div class="row">
+      <div class="form-group col-md-8">
+          <button [disabled]="!inspectionForm.valid" type="submit" class="btn btn-lg btn-block btn-success">
+            <i class="fa fa-save"></i> Submit</button>
+        </div>
+      <div class="form-group col-md-4">
+          <button type="button" class="btn btn-lg btn-block btn-primary" (click)="resetForm(inspectionForm)">
+          <i class="fa fa-undo"></i> Reset</button>
+      </div>
+  </div>
+</form>

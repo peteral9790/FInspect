@@ -1,0 +1,9 @@
+#deleteInspection {
+    color: #ff4444;
+}
+#editInspection {
+    color: #5481ff;
+}
+#deleteInspection:hover, #editInspection:hover {
+    cursor: pointer;
+}

@@ -1,0 +1,26 @@
+<div align="center">
+  <table class="table table-striped table-hover">
+    <thead>
+      <th>Part Number</th>
+      <th>MI Status Barcode</th>
+      <th>Date Inspected</th>
+      <th>QuantityInspected</th>
+      <th>Quantity Accepted</th>
+      <th>Type</th>
+      <th>Inspector</th>
+      <th></th>
+      <th></th>
+    </thead>
+    <tr *ngFor="let record of inspectionService.inspectionHistory">
+      <td>{{ record.TMSPartNumber }}</td>
+      <td>{{ record.MiStatusBarcode }}</td>
+      <td>{{ record.DateInspected }}</td>
+      <td>{{ record.QuantityInspected }}</td>
+      <td>{{ record.QuantityAccepted }}</td>
+      <td>{{ record.InspectionType }}</td>
+      <td>{{ record.InspectorName }}</td>
+      <td id="deleteInspection"><i class="fa fa-trash"></i></td>
+      <td id="editInspection"><i class="fa fa-edit"></i></td>
+    </tr>
+  </table>
+</div>
