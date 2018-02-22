@@ -14,12 +14,12 @@ export class FinalInspectionService {
   constructor(private http: Http) { }  
 
   getData(controllerName, actionName) {    
-    this.http.get('http://localhost:51714/api/' + controllerName + "/" + actionName)
+    this.http.get('/api/' + controllerName + "/" + actionName)
     .map((data: Response) => {
       return data.json() as FinalInspection[];
     }).toPromise().then(x=> {
       this.inspectionHistory = x;
-    })
+    }).catch()
   }
 
   /* getEmployeeList() {
