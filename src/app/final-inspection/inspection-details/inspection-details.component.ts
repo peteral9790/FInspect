@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { FinalInspectionService } from '../shared/final-inspection.service';
 import { NgIf } from '@angular/common';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-inspection-details',
@@ -10,7 +11,7 @@ import { NgIf } from '@angular/common';
 })
 export class InspectionDetailsComponent implements OnInit {
   showDetails: boolean = true;
-  constructor(private inspectionService: FinalInspectionService) { }
+  constructor(private inspectionService: FinalInspectionService, private toastr: ToastrService) { }
 
   ngOnInit() {
     this.resetForm();
@@ -33,7 +34,16 @@ export class InspectionDetailsComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    alert(this.inspectionService.selectedInspection.TMSPartNumber);
+    var id = this.inspectionService.selectedInspection.Id;
+    var inspection = this.inspectionService.selectedInspection;
+    if (id ==null) {
+      this.inspectionService.postInspection(form.value)
+        .subscribe(data => {
+          this.resetForm(form);
+          this.inspectionService.getData("FinalInspection", "GetInspections");
+          this.toastr.success('New Record added successfully!', 'Final Inspection');
+        })
+    }
   }
 
   toggleDetails() {
