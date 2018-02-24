@@ -11,17 +11,23 @@ export class FinalInspectionService {
 
   selectedInspection: FinalInspection;
   inspectionHistory: FinalInspection[];
-  constructor(private http: Http) { }  
+  constructor(private http: Http) { }
 
-  getData(controllerName, actionName) {    
+  getData(controllerName, actionName) {
     this.http.get('/api/' + controllerName + "/" + actionName)
-    .map((data: Response) => {
-      return data.json() as FinalInspection[];
-    }).toPromise().then(x=> {
-      this.inspectionHistory = x;
-    }).catch()
+      .map((data: Response) => {
+        return data.json() as FinalInspection[];
+      }).toPromise().then(x => {
+        this.inspectionHistory = x;
+      }).catch()
   }
 
+  postInspection(inspection: FinalInspection) {
+    var body = JSON.stringify(inspection);
+    var headerOptions = new Headers({ 'Content-Type': 'application/json' });
+    var requestOptions = new RequestOptions({ method: RequestMethod.Post, headers: headerOptions });
+    return this.http.post('/api/FinalInspection/AddNewInspection', body, requestOptions).map(x => x.json());
+  }
   /* getEmployeeList() {
     this.http.get('http://localhost:49960/api/Employee')
       .map((data: Response) => {

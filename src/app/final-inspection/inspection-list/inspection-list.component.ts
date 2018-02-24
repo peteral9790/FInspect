@@ -14,16 +14,14 @@ export class InspectionListComponent implements OnInit {
   constructor(private inspectionService: FinalInspectionService, private toastr: ToastrService) { }
 
   ngOnInit() {
-    this.inspectionService.getData("FinalInspection", "GetInspectionRecords");    
+    this.inspectionService.getData("FinalInspection", "GetInspections");    
   }
 
   toggleList() {
     if (this.showList == true) {
       this.showList = false;
-      this.toastr.success("Got data!", "FInspect");
     } else {
       this.showList = true;
-      this.toastr.success("Got data!", "FInspect");
     }
   }
 
