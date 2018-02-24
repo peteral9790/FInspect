@@ -28,7 +28,7 @@ export class InspectionDetailsComponent implements OnInit {
       QuantityAccepted: '',
       InspectionType: '',
       InspectorName: '',
-      InspectorId: '',
+      EmployeeId: '',
       DateInspected: ''
     }
   }

@@ -7,5 +7,5 @@ export class FinalInspection {
     QuantityAccepted: string;
     InspectionType: string;
     InspectorName: string;
-    InspectorId: string;
+    EmployeeId: string;
 }
