@@ -39,11 +39,22 @@ export class InspectionDetailsComponent implements OnInit {
     if (id == null) {
       this.inspectionService.postInspection(form.value)
         .subscribe(data => {
-          this.resetForm(form);
-          this.inspectionService.getData("FinalInspection", "GetInspections");
+          this.resetForm(form);          
           this.toastr.success('New Record added successfully!', 'Final Inspection');
+          this.inspectionService.getData("FinalInspection", "GetInspections");
+        })
+    } else {
+      this.inspectionService.putInspection(form.value)
+        .subscribe(data => {
+          this.resetForm(form);
+          this.toastr.info('Record updated successfully!', 'Final Inspection');
+          this.inspectionService.getData("FinalInspection", "GetInspections");
         })
     }
+  }
+
+  refreshData() {
+    this.inspectionService.getData("FinalInspection", "GetInspections");
   }
 
   toggleDetails() {
