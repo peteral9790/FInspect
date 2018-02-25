@@ -36,7 +36,7 @@ export class InspectionDetailsComponent implements OnInit {
   onSubmit(form: NgForm) {
     var id = this.inspectionService.selectedInspection.Id;
     var inspection = this.inspectionService.selectedInspection;
-    if (id ==null) {
+    if (id == null) {
       this.inspectionService.postInspection(form.value)
         .subscribe(data => {
           this.resetForm(form);

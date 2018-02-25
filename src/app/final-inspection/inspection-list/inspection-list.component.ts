@@ -35,4 +35,9 @@ export class InspectionListComponent implements OnInit {
     }
   }
 
+  editInspection(inspection: FinalInspection) {
+    this.inspectionService.selectedInspection = Object.assign({}, inspection);
+    console.log(inspection);
+  }
+
 }
