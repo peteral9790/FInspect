@@ -25,4 +25,14 @@ export class InspectionListComponent implements OnInit {
     }
   }
 
+  deleteInspection(id: number) {
+    if (confirm('Are you sure you want to delete this record?') == true) {
+      this.inspectionService.deleteInspection(id)
+      .subscribe(x => {
+        this.inspectionService.getData("FinalInspection", "GetInspections");
+        this.toastr.warning('Deleted successfully', 'Final Inspection');
+      })
+    }
+  }
+
 }

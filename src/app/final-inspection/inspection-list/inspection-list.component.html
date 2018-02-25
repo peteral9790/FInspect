@@ -21,7 +21,7 @@
       <td>{{ record.QuantityAccepted }}</td>
       <td>{{ record.InspectionType }}</td>
       <td>{{ record.InspectorName }}</td>
-      <td id="deleteInspection"><i class="fa fa-trash"></i></td>
+      <td id="deleteInspection" (click)="deleteInspection(record.Id)"><i class="fa fa-trash"></i></td>
       <td id="editInspection"><i class="fa fa-edit"></i></td>
     </tr>
   </table>

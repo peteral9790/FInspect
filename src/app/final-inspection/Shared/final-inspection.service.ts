@@ -28,6 +28,9 @@ export class FinalInspectionService {
     var requestOptions = new RequestOptions({ method: RequestMethod.Post, headers: headerOptions });
     return this.http.post('/api/FinalInspection/AddNewInspection', body, requestOptions).map(x => x.json());
   }
+  deleteInspection(id: number) {
+    return this.http.delete('/api/FinalInspection/DeleteInspection/' + id).map(res=>res.json());
+  }
   /* getEmployeeList() {
     this.http.get('http://localhost:49960/api/Employee')
       .map((data: Response) => {
