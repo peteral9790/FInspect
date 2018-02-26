@@ -40,7 +40,7 @@ export class FinalInspectionService {
     return this.http.put('http://localhost:4200/api/FinalInspection/UpdateInspection/' + inspection.Id,
     body,
     requestOptions).map(res => res.json());
-  )
+  }
   /* getEmployeeList() {
     this.http.get('http://localhost:49960/api/Employee')
       .map((data: Response) => {
