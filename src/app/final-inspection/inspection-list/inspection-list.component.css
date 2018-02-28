@@ -7,3 +7,8 @@
 #deleteInspection:hover, #editInspection:hover {
     cursor: pointer;
 }
+.finspect-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

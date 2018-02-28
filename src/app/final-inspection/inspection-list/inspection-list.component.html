@@ -1,7 +1,8 @@
 <a href="#" *ngIf="!showList" (click)="toggleList()"><i class="fa fa-plus-square"></i></a>
 <a *ngIf="showList" href="#" (click)="toggleList()"><i class="fa fa-minus-square"></i></a>
+<i class="fa fa-spinner fa-spin finspect-center" *ngIf="inspectionService.loading" style="font-size:100px"></i>
 <div *ngIf="showList" align="center">
-  <table class="table table-striped table-hover">
+  <table class="table table-striped table-hover">        
     <thead>
       <th>Part Number</th>
       <th>MI Status Barcode</th>
@@ -12,7 +13,7 @@
       <th>Inspector</th>
       <th></th>
       <th></th>
-    </thead>
+    </thead>    
     <tr *ngFor="let record of inspectionService.inspectionHistory">
       <td>{{ record.TMSPartNumber }}</td>
       <td>{{ record.MiStatusBarcode }}</td>

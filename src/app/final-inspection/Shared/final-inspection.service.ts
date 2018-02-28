@@ -8,17 +8,19 @@ import { FinalInspection } from './final-inspection.model';
 
 @Injectable()
 export class FinalInspectionService {
-
+  loading: boolean = false;
   selectedInspection: FinalInspection;
   inspectionHistory: FinalInspection[];
   constructor(private http: Http) { }
 
   getData(controllerName, actionName) {
+    this.loading = true;
     this.http.get('/api/' + controllerName + "/" + actionName)
       .map((data: Response) => {
         return data.json() as FinalInspection[];
-      }).toPromise().then(x => {
-        this.inspectionHistory = x;
+      }).toPromise().then(data => {
+        this.inspectionHistory = data;
+        this.loading = false;
       }).catch()
   }
 

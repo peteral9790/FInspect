@@ -14,7 +14,7 @@ export class InspectionListComponent implements OnInit {
   constructor(private inspectionService: FinalInspectionService, private toastr: ToastrService) { }
 
   ngOnInit() {
-    this.inspectionService.getData("FinalInspection", "GetInspections");    
+    this.inspectionService.getData("FinalInspection", "GetInspections");
   }
 
   toggleList() {
