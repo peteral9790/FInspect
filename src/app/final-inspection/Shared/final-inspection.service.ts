@@ -18,10 +18,10 @@ export class FinalInspectionService {
     this.http.get('/api/' + controllerName + "/" + actionName)
       .map((data: Response) => {
         return data.json() as FinalInspection[];
-      }).toPromise().then(data => {
+      }).subscribe(data => {
         this.inspectionHistory = data;
         this.loading = false;
-      }).catch()
+      })
   }
 
   postInspection(inspection: FinalInspection) {
