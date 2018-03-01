@@ -1,5 +1,8 @@
-<a href="#" *ngIf="!showDetails" (click)="toggleDetails()"><i class="fa fa-plus-square"></i></a>
-<a *ngIf="showDetails" href="#" (click)="toggleDetails()"><i class="fa fa-minus-square"></i></a>
+<!-- <a href="#" *ngIf="!showDetails" (click)="toggleDetails()"><i class="fa fa-plus-square"></i></a>
+<a *ngIf="showDetails" (click)="toggleDetails()"><i class="fa fa-minus-square"></i></a> -->
+
+<a class="fa fa-minus-square" *ngIf="showDetails" (click)="toggleDetails()"></a>
+<a *ngIf="!showDetails" class="fa fa-plus-square" (click)="toggleDetails()"></a>
 <form *ngIf="showDetails" #inspectionForm="ngForm" (ngSubmit)="onSubmit(inspectionForm)">
   <input type="hidden" name="Id" #Id="ngModel" [(ngModel)]="inspectionService.selectedInspection.Id">
   <div class="row">
