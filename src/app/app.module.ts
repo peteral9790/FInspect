@@ -1,8 +1,10 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler, Injectable } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
+import { FinspectErrorService } from './Common/finspect-error-service.service'
+import { FInspectErrorHandler } from './Common/finspect-error-handler'
 
 import { AppComponent } from './app.component';
 import { ToastrModule } from 'ngx-toastr';
@@ -37,7 +39,11 @@ const appRoutes: Routes = [
     ToastrModule.forRoot(),
     RouterModule.forRoot(appRoutes, { enableTracing: true })
   ],
-  providers: [],
+  providers: [
+    FInspectErrorHandler,
+    FinspectErrorService
+  ],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }

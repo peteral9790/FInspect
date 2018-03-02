@@ -14,6 +14,10 @@ export class InspectionListComponent implements OnInit {
   constructor(private inspectionService: FinalInspectionService, private toastr: ToastrService) { }
 
   ngOnInit() {
+    this.getInspectionData();
+  }
+
+  getInspectionData() {
     this.inspectionService.getData("FinalInspection", "GetInspections");
   }
 
@@ -30,7 +34,7 @@ export class InspectionListComponent implements OnInit {
       this.inspectionService.deleteInspection(id)
       .subscribe(x => {        
         this.toastr.warning('Deleted successfully', 'Final Inspection');
-        this.inspectionService.getData("FinalInspection", "GetInspections");
+        this.getInspectionData();
       })
     }
   }

@@ -3,6 +3,7 @@ import { Http, Response, Headers, RequestOptions, RequestMethod } from '@angular
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
+import { FInspectErrorHandler } from '../../Common/finspect-error-handler';
 
 import { FinalInspection } from './final-inspection.model';
 
@@ -11,7 +12,8 @@ export class FinalInspectionService {
   loading: boolean = false;
   selectedInspection: FinalInspection;
   inspectionHistory: FinalInspection[];
-  constructor(private http: Http) { }
+  
+  constructor(private http: Http, private fInspectErrorHandler: FInspectErrorHandler) { }
 
   getData(controllerName, actionName) {
     this.loading = true;
@@ -20,8 +22,12 @@ export class FinalInspectionService {
         return data.json() as FinalInspection[];
       }).subscribe(data => {
         this.inspectionHistory = data;
-        this.loading = false;
-      })
+        this.loading = false },
+        err => {
+          this.fInspectErrorHandler.handleError(err);
+          this.loading = false;
+        }
+      )
   }
 
   postInspection(inspection: FinalInspection) {
