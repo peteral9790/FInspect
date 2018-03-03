@@ -14,10 +14,14 @@ import { InspectionListComponent } from './final-inspection/inspection-list/insp
 import { InspectionViewComponent } from './final-inspection/inspection-view.component';
 import { NotFoundComponent } from './common/not-found/not-found.component';
 import { NonconformanceViewComponent } from './Nonconformance/nonconformance-view.component';
+import { InspectorViewComponent } from './inspector-view/inspector-view.component';
+import { InspectorListComponent } from './inspector-view/inspector-list/inspector-list.component';
+import { InspectorDetailsComponent } from './inspector-view/inspector-details/inspector-details.component';
 
 const appRoutes: Routes = [
   { path: 'Nonconformance', component: NonconformanceViewComponent },
   { path: 'FinalInspection', component: InspectionViewComponent },
+  { path: 'Inspectors', component: InspectorViewComponent },
   { path: '', redirectTo: '/FinalInspection', pathMatch: 'full' },
   { path: '**', component: NotFoundComponent }
 ]
@@ -29,7 +33,10 @@ const appRoutes: Routes = [
     InspectionListComponent,
     InspectionViewComponent,
     NotFoundComponent,
-    NonconformanceViewComponent
+    NonconformanceViewComponent,
+    InspectorViewComponent,
+    InspectorListComponent,
+    InspectorDetailsComponent
   ],
   imports: [
     BrowserModule,
