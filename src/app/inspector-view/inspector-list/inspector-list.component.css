@@ -1,0 +1,14 @@
+#deleteInspector {
+    color: #ff4444;
+}
+#editInspector {
+    color: #5481ff;
+}
+#deleteInspector:hover, #editInspector:hover {
+    cursor: pointer;
+}
+.finspect-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

@@ -4,7 +4,7 @@
 #editInspection {
     color: #5481ff;
 }
-#deleteInspection:hover, #editInspection:hover {
+#deleteInspection:hover, #editInspection:hover, .listToggle:hover {
     cursor: pointer;
 }
 .finspect-center {
