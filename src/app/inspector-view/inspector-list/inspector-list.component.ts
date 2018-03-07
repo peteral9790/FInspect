@@ -11,7 +11,8 @@ import {Inspector} from '../shared/Inspector';
 })
 export class InspectorListComponent implements OnInit {
   showList: boolean = true;
-  showForm: boolean = false;
+  showForm: boolean = true;
+
   constructor(private inspectorService: InspectorService, private toastr: ToastrService) { }
 
   ngOnInit() {
@@ -19,8 +20,8 @@ export class InspectorListComponent implements OnInit {
   }
 
   getInspectorList() {
-    this.inspectorService.getData("Inspector", "GetInspectors");
-  }
+    this.inspectorService.getData();
+  }  
 
   toggleList() {
     if (this.showList == true) {
@@ -30,7 +31,7 @@ export class InspectorListComponent implements OnInit {
     }
   }
 
-  toggleForm() {
+  /* toggleForm() {
     console.log(this.showForm);
     if (this.showForm == true) {
       this.showForm = false;
@@ -39,9 +40,21 @@ export class InspectorListComponent implements OnInit {
       this.showForm = true;
       console.log(this.showForm);
     }
-  }
+  } */
 
   editInspector(inspector: Inspector) {
     this.inspectorService.selectedInspector = Object.assign({}, inspector);
+    this.inspectorService.showDetails = true;
+    //this.toggleForm();
+  }
+
+  deleteInspector(id: number) {
+    if(confirm('Are you sure you want to delete this record?') == true) {
+      this.inspectorService.deleteInspector(id)
+      .subscribe(x => {
+        this.toastr.warning('Inspector Deleted Successfully', 'Manage Inspectors');
+        this.inspectorService.getData();
+      })
+    }
   }
 }

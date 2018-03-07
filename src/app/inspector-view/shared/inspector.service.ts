@@ -11,23 +11,24 @@ import { Inspector } from './inspector'
 export class InspectorService {
   inspectorList: Inspector[];
   selectedInspector: Inspector;
+  showDetails: boolean = false;
   loading: boolean = false;
 
   constructor(private http: Http, private fInspectErrorHandler: FInspectErrorHandler) { }
 
-  getData(controllerName, actionName) {
+  getData() {
     this.loading = true;
-    this.http.get('/api/' + controllerName + "/" + actionName)
+    this.http.get('/api/Inspector/GetInspectors')
       .map((data: Response) => {
         return data.json() as Inspector[];
       }).subscribe(data => {
         this.inspectorList = data;
-        this.loading = false 
+        this.loading = false
       },
-      err => {
-        this.fInspectErrorHandler.handleError(err);
-        this.loading = false;
-      })
+        err => {
+          this.fInspectErrorHandler.handleError(err);
+          this.loading = false;
+        })
   }
 
   postInspector(inspector: Inspector) {
@@ -45,7 +46,15 @@ export class InspectorService {
     var body = JSON.stringify(inspector);
     var headerOptions = new Headers({ 'Content-Type': 'application/json' });
     var requestOptions = new RequestOptions({ method: RequestMethod.Put, headers: headerOptions });
-    return this.http.put('/api/FinalInspection/UpdateInspector/' + inspector.Id, body, requestOptions).map(res => res.json());
+    return this.http.put('/api/Inspector/UpdateInspector/' + inspector.Id, body, requestOptions).map(res => res.json());
+  }
+
+  toggleDetails() {
+    if (this.showDetails == false) {
+      this.showDetails = true;
+    } else {
+      this.showDetails = false;
+    }
   }
 }
 

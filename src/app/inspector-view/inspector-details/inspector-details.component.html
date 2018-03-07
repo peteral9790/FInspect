@@ -1,24 +1,31 @@
-<a class="fa fa-minus-square listToggle" *ngIf="showDetails" (click)="toggleDetails()"></a>
-<a *ngIf="!showDetails" class="fa fa-plus-square listToggle" (click)="toggleDetails()"></a>
-<form *ngIf="showDetails" #inspectorForm="ngForm" (ngSubmit)="onSubmit(inspectorForm)">
+<a class="fa fa-minus-square listToggle" *ngIf="inspectorService.showDetails" (click)="inspectorService.toggleDetails()"></a>
+<a class="fa fa-plus-square listToggle" *ngIf="!inspectorService.showDetails" (click)="inspectorService.toggleDetails()"></a> 
+<form *ngIf="inspectorService.showDetails" #inspectorForm="ngForm" (ngSubmit)="onSubmit(inspectorForm)">
   <input type="hidden" name="Id" #Id="ngModel" [(ngModel)]="inspectorService.selectedInspector.Id">
   <div class="row">
     <div class="col">
-      <input name="FirstName" #FirstName="ngModel" [(ngModel)]="inspectorService.selectedInspector.FirstName" class="form-control" placeholder="First Name">
+      <input name="FirstName" #FirstName="ngModel" [(ngModel)]="inspectorService.selectedInspector.FirstName" class="form-control" placeholder="First Name" required>
+      <div class="validation-error" *ngIf="FirstName.invalid && FirstName.touched">This field is required.</div>
     </div>   
     <div class="col">
-      <input name="LastName" #LastName="ngModel" [(ngModel)]="inspectorService.selectedInspector.LastName" class="form-control" placeholder="Last Name">
+      <input name="LastName" #LastName="ngModel" [(ngModel)]="inspectorService.selectedInspector.LastName" class="form-control" placeholder="Last Name" required>
+      <div class="validation-error" *ngIf="LastName.invalid && LastName.touched">This field is required.</div>
     </div>    
     <div class="col">
-      <input name="Location" #Location="ngModel" [(ngModel)]="inspectorService.selectedInspector.Location" class="form-control" placeholder="Location">
+      <input name="Location" #Location="ngModel" [(ngModel)]="inspectorService.selectedInspector.Location" class="form-control" placeholder="Location" required>
+      <div class="validation-error" *ngIf="Location.invalid && Location.touched">This field is required.</div>
     </div> 
     <div class="col">
-      <input name="EmployeeId" #EmployeeId="ngModel" [(ngModel)]="inspectorService.selectedInspector.EmployeeId" class="form-control" placeholder="Employee Id">
+      <input name="EmployeeId" #EmployeeId="ngModel" [(ngModel)]="inspectorService.selectedInspector.EmployeeId" class="form-control" placeholder="Employee Id" required>
+      <div class="validation-error" *ngIf="EmployeeId.invalid && EmployeeId.touched">This field is required.</div>
     </div> 
-    <div class="form-group">
-        <button [disabled]="!inspectorForm.valid" type="submit" class="btn btn-block btn-success">
-          <i class="fa fa-save"></i>
-        </button>
-      </div>
+    <div class="btn-group mr-2" role="group">
+      <button [disabled]="!inspectorForm.valid" type="submit" class="btn btn-group btn-success">
+        <i class="fa fa-save"></i>        
+      </button>
+      <button type="button" class="btn btn-group btn-warning" (click)="resetForm()">
+          <i class="fa fa-undo"></i>
+      </button>
+    </div>
   </div>
 </form>

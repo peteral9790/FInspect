@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {InspectorService } from '../shared/inspector.service';
+import { InspectorService } from '../shared/inspector.service';
 import { NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-inspector-details',
@@ -24,7 +25,20 @@ export class InspectorDetailsComponent implements OnInit {
     }
   }
 
+  resetForm(form?: NgForm) {
+    if (form!=null)
+      form.reset();
+    this.inspectorService.selectedInspector = {
+      Id: null,
+      FirstName: '',
+      LastName: '',
+      Location: '',
+      EmployeeId: ''
+    }
+  }
+
   onSubmit(form: NgForm) {
+    console.log(form.value);
     var id = this.inspectorService.selectedInspector.Id;
     var inspection = this.inspectorService.selectedInspector;
     console.log(id + " " + inspection);
@@ -35,9 +49,9 @@ export class InspectorDetailsComponent implements OnInit {
           //this.resetForm(form);          
           this.toastr.success('Inspector added successfully!', 'Manage Inspectors');
           console.log(data);
-          this.inspectorService.getData("Inspector", "GetInspectors");
+          this.inspectorService.getData();
         })
-    } 
+    }
     else {
       if (confirm('Are you sure you want to modify this record?') == true) {
         console.log(form.value);
@@ -45,7 +59,7 @@ export class InspectorDetailsComponent implements OnInit {
           .subscribe(data => {
             //this.resetForm(form);
             this.toastr.info('Inspector updated successfully!', 'Manage Inspectors');
-            this.inspectorService.getData("Inspector", "GetInspectors");
+            this.inspectorService.getData();
           })
       } else {
         //this.resetForm(form);
