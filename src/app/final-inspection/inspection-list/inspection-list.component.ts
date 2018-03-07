@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FinalInspectionService } from '../shared/final-inspection.service';
 import { FinalInspection } from '../shared/final-inspection.model';
 import { ToastrService } from 'ngx-toastr';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-inspection-list',
@@ -10,7 +11,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class InspectionListComponent implements OnInit {
   showList: boolean = true;
-  inspectionHistory: FinalInspection[];
+  /* inspectionHistory: FinalInspection[]; */
   constructor(private inspectionService: FinalInspectionService, private toastr: ToastrService) { }
 
   ngOnInit() {

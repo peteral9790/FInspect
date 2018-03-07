@@ -1,3 +1,24 @@
-<p>
-  inspector-details works!
-</p>
+<a class="fa fa-minus-square listToggle" *ngIf="showDetails" (click)="toggleDetails()"></a>
+<a *ngIf="!showDetails" class="fa fa-plus-square listToggle" (click)="toggleDetails()"></a>
+<form *ngIf="showDetails" #inspectorForm="ngForm" (ngSubmit)="onSubmit(inspectorForm)">
+  <input type="hidden" name="Id" #Id="ngModel" [(ngModel)]="inspectorService.selectedInspector.Id">
+  <div class="row">
+    <div class="col">
+      <input name="FirstName" #FirstName="ngModel" [(ngModel)]="inspectorService.selectedInspector.FirstName" class="form-control" placeholder="First Name">
+    </div>   
+    <div class="col">
+      <input name="LastName" #LastName="ngModel" [(ngModel)]="inspectorService.selectedInspector.LastName" class="form-control" placeholder="Last Name">
+    </div>    
+    <div class="col">
+      <input name="Location" #Location="ngModel" [(ngModel)]="inspectorService.selectedInspector.Location" class="form-control" placeholder="Location">
+    </div> 
+    <div class="col">
+      <input name="EmployeeId" #EmployeeId="ngModel" [(ngModel)]="inspectorService.selectedInspector.EmployeeId" class="form-control" placeholder="Employee Id">
+    </div> 
+    <div class="form-group">
+        <button [disabled]="!inspectorForm.valid" type="submit" class="btn btn-block btn-success">
+          <i class="fa fa-save"></i>
+        </button>
+      </div>
+  </div>
+</form>

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { InspectorService } from '../shared/inspector.service';
 import { ToastrService } from 'ngx-toastr';
+import { NgIf } from '@angular/common';
+import {Inspector} from '../shared/Inspector';
 
 @Component({
   selector: 'app-inspector-list',
@@ -9,6 +11,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class InspectorListComponent implements OnInit {
   showList: boolean = true;
+  showForm: boolean = false;
   constructor(private inspectorService: InspectorService, private toastr: ToastrService) { }
 
   ngOnInit() {
@@ -25,5 +28,20 @@ export class InspectorListComponent implements OnInit {
     } else {
       this.showList = true;
     }
+  }
+
+  toggleForm() {
+    console.log(this.showForm);
+    if (this.showForm == true) {
+      this.showForm = false;
+      console.log(this.showForm);
+    } else {
+      this.showForm = true;
+      console.log(this.showForm);
+    }
+  }
+
+  editInspector(inspector: Inspector) {
+    this.inspectorService.selectedInspector = Object.assign({}, inspector);
   }
 }

@@ -10,6 +10,7 @@ import { Inspector } from './inspector'
 @Injectable()
 export class InspectorService {
   inspectorList: Inspector[];
+  selectedInspector: Inspector;
   loading: boolean = false;
 
   constructor(private http: Http, private fInspectErrorHandler: FInspectErrorHandler) { }
@@ -27,6 +28,24 @@ export class InspectorService {
         this.fInspectErrorHandler.handleError(err);
         this.loading = false;
       })
-    }
+  }
+
+  postInspector(inspector: Inspector) {
+    var body = JSON.stringify(inspector);
+    var headerOptions = new Headers({ 'Content-Type': 'application/json' });
+    var requestOptions = new RequestOptions({ method: RequestMethod.Post, headers: headerOptions });
+    return this.http.post('/api/Inspector/AddInspector', body, requestOptions).map(x => x.json());
+  }
+
+  deleteInspector(id: number) {
+    return this.http.delete('/api/Inspector/DeleteInspector/' + id).map(res => res.json());
+  }
+
+  putInspector(inspector: Inspector) {
+    var body = JSON.stringify(inspector);
+    var headerOptions = new Headers({ 'Content-Type': 'application/json' });
+    var requestOptions = new RequestOptions({ method: RequestMethod.Put, headers: headerOptions });
+    return this.http.put('/api/FinalInspection/UpdateInspector/' + inspector.Id, body, requestOptions).map(res => res.json());
+  }
 }
 
