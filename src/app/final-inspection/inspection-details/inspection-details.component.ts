@@ -31,6 +31,15 @@ export class InspectionDetailsComponent implements OnInit {
       EmployeeId: '',
       DateInspected: ''
     }
+    this.inspectionService.MIStatusData = {
+      Id: null,
+      SalesOrder: '',
+      MINumber: '',
+      MIRev: '',
+      Location: '',
+      CustomerName:'',
+    }
+    this.inspectionService.MiDetails = false;
   }
 
   onSubmit(form: NgForm) {
@@ -67,5 +76,9 @@ export class InspectionDetailsComponent implements OnInit {
     } else {
       this.showDetails = true;
     }
+  }
+
+  getMIStatusData(id: number) {
+    this.inspectionService.getMIStatusData(id);
   }
 }

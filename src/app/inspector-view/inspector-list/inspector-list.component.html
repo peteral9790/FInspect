@@ -13,7 +13,7 @@
       <th><!-- <a class="fa fa-plus" align="right" id="addInspector" (click)="toggleForm()"></a> --></th>
     </thead>
     <tr *ngFor="let inspector of inspectorService.inspectorList">
-      <input type="hidden" name="Id" #Id="ngModel" [(ngModel)]="inspector.Id">
+      <!-- <input type="hidden" name="Id" #Id="ngModel" [(ngModel)]="inspector.Id"> -->
       <td>{{ inspector.FirstName }}</td>
       <td>{{ inspector.LastName }}</td>
       <td>{{ inspector.Location }}</td>

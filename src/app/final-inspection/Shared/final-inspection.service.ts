@@ -6,26 +6,47 @@ import 'rxjs/add/operator/toPromise';
 import { FInspectErrorHandler } from '../../Common/finspect-error-handler';
 
 import { FinalInspection } from './final-inspection.model';
+import { MIStatus } from './mistatus.model';
 
 @Injectable()
 export class FinalInspectionService {
-  loading: boolean = false;
+  loadingList: boolean = false;
+  loadingDetails: boolean = false;
+  MiDetails: boolean = false;
   selectedInspection: FinalInspection;
   inspectionHistory: FinalInspection[];
+  MIStatusData: MIStatus;
   
   constructor(private http: Http, private fInspectErrorHandler: FInspectErrorHandler) { }
 
   getData(controllerName, actionName) {
-    this.loading = true;
+    this.loadingList = true;
     this.http.get('/api/' + controllerName + "/" + actionName)
       .map((data: Response) => {
         return data.json() as FinalInspection[];
       }).subscribe(data => {
         this.inspectionHistory = data;
-        this.loading = false },
+        this.loadingList = false },
         err => {
           this.fInspectErrorHandler.handleError(err);
-          this.loading = false;
+          this.loadingList = false;
+        }
+      )
+  }
+
+  getMIStatusData(id: number) {
+    this.loadingDetails = true;
+    this.http.get('/api/MiStatus/GetMiStatusData/' + id)
+      .map((data: Response) => {
+        return data.json() as MIStatus;
+      }).subscribe(data => {
+        this.MIStatusData = data;
+        this.selectedInspection.TMSPartNumber = data.MINumber;
+        this.MiDetails = true;
+        this.loadingDetails = false },
+        err => {
+          this.fInspectErrorHandler.handleError(err);
+          this.loadingDetails = false;
         }
       )
   }

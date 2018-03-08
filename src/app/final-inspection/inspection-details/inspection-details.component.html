@@ -3,11 +3,12 @@
 
 <a class="fa fa-minus-square listToggle" *ngIf="showDetails" (click)="toggleDetails()"></a>
 <a *ngIf="!showDetails" class="fa fa-plus-square listToggle" (click)="toggleDetails()"></a>
+<i class="fa fa-spinner fa-spin" align="center" *ngIf="inspectionService.loadingDetails" style="font-size:100px"></i>
 <form *ngIf="showDetails" #inspectionForm="ngForm" (ngSubmit)="onSubmit(inspectionForm)">
   <input type="hidden" name="Id" #Id="ngModel" [(ngModel)]="inspectionService.selectedInspection.Id">
   <div class="row">
       <div class="col">
-        <input name="MiStatusBarcode" #MiStatusBarcode="ngModel" [(ngModel)]="inspectionService.selectedInspection.MiStatusBarcode" class="form-control" placeholder="Mi Status Barcode">
+        <input name="MiStatusBarcode" #MiStatusBarcode="ngModel" [(ngModel)]="inspectionService.selectedInspection.MiStatusBarcode" class="form-control" (blur)="getMIStatusData(inspectionService.selectedInspection.MiStatusBarcode)" placeholder="Mi Status Barcode">
       </div>      
     </div>
     <br />
@@ -17,11 +18,31 @@
       <div class="validation-error" *ngIf="EmployeeId.invalid && EmployeeId.touched">This field is required.</div>
     </div>
     <div class="col">
-        <input name="TMSPartNumber" #TMSPartNumber="ngModel" [(ngModel)]="inspectionService.selectedInspection.TMSPartNumber" class="form-control" placeholder="Part Number" required>
-        <div class="validation-error" *ngIf="TMSPartNumber.invalid && TMSPartNumber.touched">This field is required.</div>
-      </div>
+      <input name="TMSPartNumber" #TMSPartNumber="ngModel" [(ngModel)]="inspectionService.selectedInspection.TMSPartNumber" class="form-control" placeholder="Part Number" required>
+      <div class="validation-error" *ngIf="TMSPartNumber.invalid && TMSPartNumber.touched">This field is required.</div>
+    </div>
   </div>
   <br />
+  <div *ngIf="inspectionService.MiDetails">
+    <div class="row">
+      <div class="col">
+        <input name="SalesOrder" #SalesOrder="ngModel" [(ngModel)]="inspectionService.MIStatusData.SalesOrder" class="form-control" placeholder="Sales Order" disabled>
+      </div>
+      <div class="col">
+        <input name="MIRev" #MIRev="ngModel" [(ngModel)]="inspectionService.MIStatusData.MIRev" class="form-control" placeholder="MI Rev" disabled>
+      </div>    
+    </div>
+    <br />
+    <div class="row">
+      <div class="col">
+        <input name="Location" #Location="ngModel" [(ngModel)]="inspectionService.MIStatusData.Location" class="form-control" placeholder="Location" disabled>
+      </div>
+      <div class="col">
+        <input name="CustomerName" #CustomerName="ngModel" [(ngModel)]="inspectionService.MIStatusData.CustomerName" class="form-control" placeholder="Customer Name" disabled>
+      </div>
+    </div>
+    <br />
+  </div>
   <div class="row">
     <div class="col">
       <input name="QuantityInspected" #QuantityInspected="ngModel" [(ngModel)]="inspectionService.selectedInspection.QuantityInspected" class="form-control" placeholder="Quantity Inspected" required>
