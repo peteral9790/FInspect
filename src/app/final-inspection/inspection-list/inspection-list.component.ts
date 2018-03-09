@@ -38,6 +38,7 @@ export class InspectionListComponent implements OnInit {
         this.getInspectionData();
       })
     }
+    this.inspectionService.resetSelectedInspection();
   }
 
   editInspection(inspection: FinalInspection) {

@@ -38,27 +38,16 @@ export class InspectorDetailsComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    
-    if (this.inspectorService.selectedInspector.Id !== null){
-      var id = this.inspectorService.selectedInspector.Id;
-    } else {
-      id = null;
-    }
-    var inspector = this.inspectorService.selectedInspector;
-    console.log(id + " " + inspector);
-    if (id == null) {
-      console.log("Id = null. " + form.value);
+    if (form.value.Id == null) {
       this.inspectorService.postInspector(form.value)
         .subscribe(data => {
           this.resetForm(form);          
           this.toastr.success('Inspector added successfully!', 'Manage Inspectors');
-          console.log(data);
           this.inspectorService.getData();
         })
     }
     else {
       if (confirm('Are you sure you want to modify this record?') == true) {
-        console.log(form.value);
         this.inspectorService.putInspector(form.value)
           .subscribe(data => {
             this.resetForm(form);
@@ -66,7 +55,7 @@ export class InspectorDetailsComponent implements OnInit {
             this.inspectorService.getData();
           })
       } else {
-        //this.resetForm(form);
+        this.resetForm(form);
       }
     }
   }

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { InspectorService } from '../shared/inspector.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgIf } from '@angular/common';
-import {Inspector} from '../shared/Inspector';
+import { Inspector } from '../shared/Inspector';
 
 @Component({
   selector: 'app-inspector-list',
@@ -21,7 +21,7 @@ export class InspectorListComponent implements OnInit {
 
   getInspectorList() {
     this.inspectorService.getData();
-  }  
+  }
 
   toggleList() {
     if (this.showList == true) {
@@ -31,30 +31,20 @@ export class InspectorListComponent implements OnInit {
     }
   }
 
-  /* toggleForm() {
-    console.log(this.showForm);
-    if (this.showForm == true) {
-      this.showForm = false;
-      console.log(this.showForm);
-    } else {
-      this.showForm = true;
-      console.log(this.showForm);
-    }
-  } */
-
   editInspector(inspector: Inspector) {
     this.inspectorService.selectedInspector = Object.assign({}, inspector);
     this.inspectorService.showDetails = true;
-    //this.toggleForm();
   }
 
   deleteInspector(id: number) {
-    if(confirm('Are you sure you want to delete this record?') == true) {
+    if (confirm('Are you sure you want to delete this record?') == true) {
       this.inspectorService.deleteInspector(id)
-      .subscribe(x => {
-        this.toastr.warning('Inspector Deleted Successfully', 'Manage Inspectors');
-        this.inspectorService.getData();
-      })
+        .subscribe(x => {
+          this.toastr.warning('Inspector Deleted Successfully', 'Manage Inspectors');
+          this.inspectorService.getData();
+        })
     }
+    this.inspectorService.resetInspector();
   }
 }
+

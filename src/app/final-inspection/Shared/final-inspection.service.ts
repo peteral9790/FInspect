@@ -50,7 +50,7 @@ export class FinalInspectionService {
         }
       )
   }
-
+ 
   postInspection(inspection: FinalInspection) {
     var body = JSON.stringify(inspection);
     var headerOptions = new Headers({ 'Content-Type': 'application/json' });
@@ -70,6 +70,29 @@ export class FinalInspectionService {
     body,
     requestOptions).map(res => res.json());
   }
+  
+  resetSelectedInspection() {
+    this.selectedInspection = {
+      Id: null,
+      TMSPartNumber: '',
+      MiStatusBarcode: '',
+      QuantityInspected: '',
+      QuantityAccepted: '',
+      InspectionType: '',
+      InspectorName: '',
+      EmployeeId: '',
+      DateInspected: ''
+    }
+    this.MIStatusData = {
+      Id: null,
+      SalesOrder: '',
+      MINumber: '',
+      MIRev: '',
+      Location: '',
+      CustomerName:'',
+    }
+  }
+ 
   /* getEmployeeList() {
     this.http.get('http://localhost:49960/api/Employee')
       .map((data: Response) => {

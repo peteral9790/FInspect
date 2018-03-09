@@ -56,5 +56,15 @@ export class InspectorService {
       this.showDetails = false;
     }
   }
+
+  resetInspector() {
+    this.selectedInspector = {
+      Id: null,
+      FirstName: '',
+      LastName: '',
+      Location: '',
+      EmployeeId: ''
+    }
+  }
 }
 
