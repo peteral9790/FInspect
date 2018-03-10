@@ -56,7 +56,13 @@
   <br />
   <div class="row">      
     <div class="col">
-      <input name="InspectionType" #InspectionType="ngModel" [(ngModel)]="inspectionService.selectedInspection.InspectionType" class="form-control" placeholder="Inspection Type" required>
+      <select name="InspectionType" #InspectionType="ngModel" [(ngModel)]="inspectionService.selectedInspection.InspectionType" class="form-control" required>
+        <option>Final Inspection</option>
+        <option>Re-Inspection</option>
+        <option>Split-MI</option>
+        <option>In-process</option>
+      </select>
+      <!-- <input name="InspectionType" #InspectionType="ngModel" [(ngModel)]="inspectionService.selectedInspection.InspectionType" class="form-control" placeholder="Inspection Type" required>  -->
       <div class="validation-error" *ngIf="InspectionType.invalid && InspectionType.touched">This field is required.</div>
     </div>
   </div>
@@ -65,7 +71,7 @@
     <label for="fileUpload">Upload Document: </label>
   </div>
   <div class="col">
-    <input id="fileUpload" type="file" class="">
+    <input id="fileUpload" type="file">
   </div>
   <br />
   <div class="row">

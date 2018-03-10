@@ -3,3 +3,6 @@
     padding: 0px;
     margin: 0px;
 }
+.disabledBG {
+    background-color: #595959;
+}
