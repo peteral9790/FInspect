@@ -3,6 +3,7 @@ import { FinalInspectionService } from '../shared/final-inspection.service';
 import { FinalInspection } from '../shared/final-inspection.model';
 import { ToastrService } from 'ngx-toastr';
 
+
 @Component({
   selector: 'app-inspection-list',
   templateUrl: './inspection-list.component.html',
@@ -11,6 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 export class InspectionListComponent implements OnInit {
   showList: boolean = true;
   inspectionHistory: FinalInspection[];
+  viewList: FinalInspection[];
   constructor(private inspectionService: FinalInspectionService, private toastr: ToastrService) { }
 
   ngOnInit() {
@@ -44,4 +46,7 @@ export class InspectionListComponent implements OnInit {
     this.inspectionService.selectedInspection = Object.assign({}, inspection);
   }
 
+  filterTable(field: string) {
+    this.inspectionService.inspectionSort(field);
+  }
 }

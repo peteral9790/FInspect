@@ -1,5 +1,5 @@
 import { ErrorHandler, Injectable } from '@angular/core';
-import { FinspectErrorService } from './finspect-error-service.service';
+import { FinspectErrorService } from './finspect-error.service';
 
 @Injectable()
 export class FInspectErrorHandler extends ErrorHandler {

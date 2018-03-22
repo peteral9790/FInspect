@@ -6,17 +6,27 @@ import 'rxjs/add/operator/toPromise';
 import { FInspectErrorHandler } from '../../Common/finspect-error-handler';
 
 import { FinalInspection } from './final-inspection.model';
+import { InspectionFilter } from './inspection-filter.model';
 import { MIStatus } from './mistatus.model';
 
 @Injectable()
 export class FinalInspectionService {
   loadingList: boolean = false;
+  error: Error;
   loadingDetails: boolean = false;
   MiDetails: boolean = false;
   selectedInspection: FinalInspection;
   inspectionHistory: FinalInspection[];
   MIStatusData: MIStatus;
-  
+  currentFilter: InspectionFilter = {
+    MiStatusBarcode: 0,
+    DateInspected: 0,
+    QuantityInspected: 0,
+    QuantityAccepted: 0,
+    InspectionType: 0,
+    InspectorName: 0
+  }
+
   constructor(private http: Http, private fInspectErrorHandler: FInspectErrorHandler) { }
 
   getData(controllerName, actionName) {
@@ -26,9 +36,11 @@ export class FinalInspectionService {
         return data.json() as FinalInspection[];
       }).subscribe(data => {
         this.inspectionHistory = data;
-        this.loadingList = false },
+        this.loadingList = false
+      },
         err => {
-          this.fInspectErrorHandler.handleError(err);
+          this.error = err;
+          this.fInspectErrorHandler.handleError(this.error);
           this.loadingList = false;
         }
       )
@@ -43,34 +55,39 @@ export class FinalInspectionService {
         this.MIStatusData = data;
         this.selectedInspection.TMSPartNumber = data.MINumber;
         this.MiDetails = true;
-        this.loadingDetails = false },
+        this.loadingDetails = false
+      },
         err => {
-          this.fInspectErrorHandler.handleError(err);
+          this.error = err;
+          this.fInspectErrorHandler.handleError(this.error);
           this.loadingDetails = false;
         }
       )
   }
- 
+
   postInspection(inspection: FinalInspection) {
     var body = JSON.stringify(inspection);
     var headerOptions = new Headers({ 'Content-Type': 'application/json' });
     var requestOptions = new RequestOptions({ method: RequestMethod.Post, headers: headerOptions });
-    return this.http.post('/api/FinalInspection/AddNewInspection', body, requestOptions).map(x => x.json());
+    return this.http
+      .post('/api/FinalInspection/AddNewInspection', body, requestOptions)
+      .map(x => x.json());
   }
 
   deleteInspection(id: number) {
-    return this.http.delete('/api/FinalInspection/DeleteInspection/' + id).map(res => res.json());
+    return this.http.delete('/api/FinalInspection/DeleteInspection/' + id)
+      .map(res => res.json());
   }
 
   putInspection(inspection: FinalInspection) {
     var body = JSON.stringify(inspection);
     var headerOptions = new Headers({ 'Content-Type': 'application/json' });
     var requestOptions = new RequestOptions({ method: RequestMethod.Put, headers: headerOptions });
-    return this.http.put('http://localhost:4200/api/FinalInspection/UpdateInspection/' + inspection.Id,
-    body,
-    requestOptions).map(res => res.json());
+    return this.http.put('/api/FinalInspection/UpdateInspection/' + inspection.Id,
+      body,
+      requestOptions).map(res => res.json());
   }
-  
+
   resetSelectedInspection() {
     this.selectedInspection = {
       Id: null,
@@ -89,39 +106,129 @@ export class FinalInspectionService {
       MINumber: '',
       MIRev: '',
       Location: '',
-      CustomerName:'',
+      CustomerName: '',
     }
   }
- 
-  /* getEmployeeList() {
-    this.http.get('http://localhost:49960/api/Employee')
-      .map((data: Response) => {
-        return data.json() as Employee[];
-      }).toPromise().then(x => {
-        this.employeeList = x;
-      })
-  } */
-  /* selectedEmployee: Employee;
-  employeeList: Employee[];
-  constructor(private http: Http) { }
 
-  postEmployee(emp: Employee) {
-    var body = JSON.stringify(emp);
-    var headerOptions = new Headers({ 'Content-Type': 'application/json' });
-    var requestOptions = new RequestOptions({ method: RequestMethod.Post, headers: headerOptions });
-    return this.http.post('http://localhost:49960/api/Employee', body, requestOptions).map(x => x.json());
+  inspectionSort(field: string) {
+    switch (field) {
+      case 'MiStatusBarcode': {
+        if (this.currentFilter.MiStatusBarcode < 1) {
+          this.ascSort('MiStatusBarcode');
+          this.resetCurrentFilters();
+          this.currentFilter.MiStatusBarcode = 1;
+        } else {
+          this.dscSort('MiStatusBarcode');
+          this.resetCurrentFilters();
+          this.currentFilter.MiStatusBarcode = -1;
+        }
+        console.log(this.currentFilter);
+        break;
+      }
+      case 'DateInspected': {
+        if (this.currentFilter.DateInspected < 1) {
+          this.ascSort('DateInspected');
+          this.resetCurrentFilters();
+          this.currentFilter.DateInspected = 1;
+        } else {
+          this.dscSort('DateInspected');
+          this.resetCurrentFilters();
+          this.currentFilter.DateInspected = -1;
+        }
+        console.log(this.currentFilter);
+        break;
+      }
+      case 'QuantityInspected': {
+        if (this.currentFilter.QuantityInspected < 1) {
+          this.ascSort('QuantityInspected');
+          this.resetCurrentFilters();
+          this.currentFilter.QuantityInspected = 1;
+        } else {
+          this.dscSort('QuantityInspected');
+          this.resetCurrentFilters();
+          this.currentFilter.QuantityInspected = -1;
+        }
+        console.log(this.currentFilter);
+        break;
+      }
+      case 'QuantityAccepted': {
+        if (this.currentFilter.QuantityAccepted < 1) {
+          this.ascSort('QuantityAccepted');
+          this.resetCurrentFilters();
+          this.currentFilter.QuantityAccepted = 1;
+        } else {
+          this.dscSort('QuantityAccepted');
+          this.resetCurrentFilters();
+          this.currentFilter.QuantityAccepted = -1;
+        }
+        console.log(this.currentFilter);
+        break;
+      }
+      case 'InspectionType': {
+        if (this.currentFilter.InspectionType < 1) {
+          this.ascSort('InspectionType');
+          this.resetCurrentFilters();
+          this.currentFilter.InspectionType = 1;
+        } else {
+          this.dscSort('InspectionType');
+          this.resetCurrentFilters();
+          this.currentFilter.InspectionType = -1;
+        }
+        console.log(this.currentFilter);
+        break;
+      }
+      case 'InspectorName': {
+        if (this.currentFilter.InspectorName < 1) {
+          this.ascSort('InspectorName');
+          this.resetCurrentFilters();
+          this.currentFilter.InspectorName = 1;
+        } else {
+          this.dscSort('InspectorName');
+          this.resetCurrentFilters();
+          this.currentFilter.InspectorName = -1;
+        }
+        console.log(this.currentFilter);
+        break;
+      }
+      default: {
+        console.log("Invalid choice");
+        break;
+      }
+    }
   }
 
-  putEmployee(id, emp) {
-    var body = JSON.stringify(emp);
-    var headerOptions = new Headers({ 'Content-Type': 'application/json' });
-    var requestOptions = new RequestOptions({ method: RequestMethod.Put, headers: headerOptions});
-    return this.http.put('http://localhost:49960/api/Employee/' + id,
-    body,
-    requestOptions).map(res => res.json());
+  ascSort(field: string) {
+    this.inspectionHistory.sort((a, b) => {
+      if (a[field] > b[field]) {
+        return 1;
+      } else if (a[field] < b[field]) {
+        return -1;
+      } else {
+        return 0;
+      }
+    });
+  }
+  dscSort(field: string) {
+    this.inspectionHistory.sort((a, b) => {
+      if (a[field] > b[field]) {
+        return -1;
+      } else if (a[field] < b[field]) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
   }
 
-  deleteEmployee(id: number) {
-    return this.http.delete('http://localhost:49960/api/Employee/' + id).map(res => res.json());
-  } */
+  resetCurrentFilters() {
+    this.currentFilter.MiStatusBarcode = 0;
+    this.currentFilter.DateInspected = 0;
+    this.currentFilter.QuantityInspected = 0;
+    this.currentFilter.QuantityAccepted = 0;
+    this.currentFilter.InspectionType = 0;
+    this.currentFilter.InspectorName = 0;
+  }
 }
+
+
+

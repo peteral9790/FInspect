@@ -14,12 +14,12 @@
     <br />
   <div class="row">
     <div class="col">
-      <input name="EmployeeId" #EmployeeId="ngModel" [(ngModel)]="inspectionService.selectedInspection.EmployeeId" class="form-control" placeholder="Employee Id" required>
-      <div class="validation-error" *ngIf="EmployeeId.invalid && EmployeeId.touched">This field is required.</div>
-    </div>
-    <div class="col">
       <input name="TMSPartNumber" #TMSPartNumber="ngModel" [(ngModel)]="inspectionService.selectedInspection.TMSPartNumber" class="form-control" placeholder="Part Number" required>
       <div class="validation-error" *ngIf="TMSPartNumber.invalid && TMSPartNumber.touched">This field is required.</div>
+    </div>
+    <div class="col">
+      <input name="EmployeeId" #EmployeeId="ngModel" [(ngModel)]="inspectionService.selectedInspection.EmployeeId" class="form-control" placeholder="Employee Id" required>
+      <div class="validation-error" *ngIf="EmployeeId.invalid && EmployeeId.touched">This field is required.</div>
     </div>
   </div>
   <br />
