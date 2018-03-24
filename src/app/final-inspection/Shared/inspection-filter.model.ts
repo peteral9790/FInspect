@@ -1,4 +1,5 @@
 export class InspectionFilter {
+    PartNumber: number;
     MiStatusBarcode: number;
     DateInspected: number;
     QuantityInspected: number;

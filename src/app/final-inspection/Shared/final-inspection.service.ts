@@ -19,6 +19,7 @@ export class FinalInspectionService {
   inspectionHistory: FinalInspection[];
   MIStatusData: MIStatus;
   currentFilter: InspectionFilter = {
+    PartNumber: 0,
     MiStatusBarcode: 0,
     DateInspected: 0,
     QuantityInspected: 0,
@@ -122,7 +123,18 @@ export class FinalInspectionService {
           this.resetCurrentFilters();
           this.currentFilter.MiStatusBarcode = -1;
         }
-        console.log(this.currentFilter);
+        break;
+      }
+      case 'PartNumber': {
+        if (this.currentFilter.PartNumber < 1) {
+          this.ascPartNumberSort('PartNumber');
+          this.resetCurrentFilters();
+          this.currentFilter.PartNumber = 1;
+        } else {
+          this.dscPartNumberSort('PartNumber');
+          this.resetCurrentFilters();
+          this.currentFilter.PartNumber = -1;
+        }
         break;
       }
       case 'DateInspected': {
@@ -135,7 +147,6 @@ export class FinalInspectionService {
           this.resetCurrentFilters();
           this.currentFilter.DateInspected = -1;
         }
-        console.log(this.currentFilter);
         break;
       }
       case 'QuantityInspected': {
@@ -148,7 +159,6 @@ export class FinalInspectionService {
           this.resetCurrentFilters();
           this.currentFilter.QuantityInspected = -1;
         }
-        console.log(this.currentFilter);
         break;
       }
       case 'QuantityAccepted': {
@@ -161,7 +171,6 @@ export class FinalInspectionService {
           this.resetCurrentFilters();
           this.currentFilter.QuantityAccepted = -1;
         }
-        console.log(this.currentFilter);
         break;
       }
       case 'InspectionType': {
@@ -174,7 +183,6 @@ export class FinalInspectionService {
           this.resetCurrentFilters();
           this.currentFilter.InspectionType = -1;
         }
-        console.log(this.currentFilter);
         break;
       }
       case 'InspectorName': {
@@ -187,7 +195,6 @@ export class FinalInspectionService {
           this.resetCurrentFilters();
           this.currentFilter.InspectorName = -1;
         }
-        console.log(this.currentFilter);
         break;
       }
       default: {
@@ -219,8 +226,20 @@ export class FinalInspectionService {
       }
     });
   }
+  ascPartNumberSort(field: string) {
+    this.inspectionHistory.sort((a, b) => {
+      console.log(a[field]);
+      return a.TMSPartNumber.localeCompare(b.TMSPartNumber);      
+    })
+  }
+  dscPartNumberSort(field: string) {
+    this.inspectionHistory.sort((a, b) => {
+      return (a.TMSPartNumber.localeCompare(b.TMSPartNumber)) * -1;
+    })
+  }
 
   resetCurrentFilters() {
+    this.currentFilter.PartNumber = 0;
     this.currentFilter.MiStatusBarcode = 0;
     this.currentFilter.DateInspected = 0;
     this.currentFilter.QuantityInspected = 0;

@@ -79,6 +79,7 @@ export class InspectionDetailsComponent implements OnInit {
   }
 
   getMIStatusData(id: number) {
+    this.resetForm();
     this.inspectionService.getMIStatusData(id);
   }
 }
