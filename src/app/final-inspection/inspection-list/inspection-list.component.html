@@ -14,28 +14,28 @@
       <!-- <th>Part Number</th> -->
       <th>
         <a class="filterLink" (click)="filterTable('MiStatusBarcode')">
-          MI Barcode
+          Barcode
           <i class="fa fa-caret-up"  *ngIf="inspectionService.currentFilter.MiStatusBarcode==-1"></i>
           <i class="fa fa-caret-down" *ngIf="inspectionService.currentFilter.MiStatusBarcode==1"></i>
         </a>
       </th>
       <th>
         <a class="filterLink" (click)="filterTable('DateInspected')">
-          Date Inspected
+          Date
           <i class="fa fa-caret-up"  *ngIf="inspectionService.currentFilter.DateInspected==-1"></i>
           <i class="fa fa-caret-down" *ngIf="inspectionService.currentFilter.DateInspected==1"></i>
         </a>
       </th>
       <th>
         <a class="filterLink" (click)="filterTable('QuantityInspected')">
-          Qty. Inspected
+          Inspected
           <i class="fa fa-caret-up"  *ngIf="inspectionService.currentFilter.QuantityInspected==-1"></i>
           <i class="fa fa-caret-down" *ngIf="inspectionService.currentFilter.QuantityInspected==1"></i>
         </a>
       </th>
       <th>
         <a class="filterLink" (click)="filterTable('QuantityAccepted')">
-          Qty. Accepted
+          Accepted
           <i class="fa fa-caret-up"  *ngIf="inspectionService.currentFilter.QuantityAccepted==-1"></i>
           <i class="fa fa-caret-down" *ngIf="inspectionService.currentFilter.QuantityAccepted==1"></i>
         </a>
@@ -54,10 +54,18 @@
           <i class="fa fa-caret-down" *ngIf="inspectionService.currentFilter.InspectorName==1"></i>
         </a>
       </th>
+      <th>
+        <a class="filterLink" (click)="filterTable('InspectionLocation')">
+          Inspection Location
+          <i class="fa fa-caret-up"  *ngIf="inspectionService.currentFilter.InspectionLocation==-1"></i>
+          <i class="fa fa-caret-down" *ngIf="inspectionService.currentFilter.InspectionLocation==1"></i>
+        </a>
+      </th>
       <th></th>
       <th></th>
-    </thead>    
-    <tr *ngFor="let record of inspectionService.inspectionHistory | paginate: { itemsPerPage: 15, currentPage: p }">
+    </thead>  
+     
+    <tr class="filterLink" *ngFor="let record of inspectionService.inspectionHistory | paginate: { itemsPerPage: 15, currentPage: p }" (click)="getAssemblyDetails(record.TMSPartNumber)">
       <td>{{ record.TMSPartNumber }}</td>
       <td>{{ record.MiStatusBarcode }}</td>
       <td>{{ record.DateInspected }}</td>
@@ -65,9 +73,11 @@
       <td>{{ record.QuantityAccepted }}</td>
       <td>{{ record.InspectionType }}</td>
       <td>{{ record.InspectorName }}</td>
+      <td>{{ record.InspectionLocation }}</td>
       <td id="deleteInspection" (click)="deleteInspection(record.Id)"><i class="fa fa-trash"></i></td>
       <td id="editInspection" (click)="editInspection(record)"><i class="fa fa-edit"></i></td>
     </tr>
+
   </table>
   <pagination-controls (pageChange)="p = $event"></pagination-controls>
   <i class="fa fa-spinner fa-spin" align="center" *ngIf="inspectionService.loadingList" style="font-size:100px"></i>

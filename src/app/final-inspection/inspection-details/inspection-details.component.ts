@@ -17,7 +17,7 @@ export class InspectionDetailsComponent implements OnInit {
     this.resetForm();
   }
 
-  resetForm(form?: NgForm) {
+  resetForm(form?: NgForm) {    
     if (form!=null)
       form.reset();
     this.inspectionService.selectedInspection = {
@@ -27,6 +27,8 @@ export class InspectionDetailsComponent implements OnInit {
       QuantityInspected: '',
       QuantityAccepted: '',
       InspectionType: '',
+      MfgLocation: '',
+      InspectionLocation:'',
       InspectorName: '',
       EmployeeId: '',
       DateInspected: ''
@@ -45,6 +47,7 @@ export class InspectionDetailsComponent implements OnInit {
   onSubmit(form: NgForm) {
     var id = this.inspectionService.selectedInspection.Id;
     var inspection = this.inspectionService.selectedInspection;
+    console.log(form.value);
     if (id == null) {
       this.inspectionService.postInspection(form.value)
         .subscribe(data => {
@@ -78,8 +81,8 @@ export class InspectionDetailsComponent implements OnInit {
     }
   }
 
-  getMIStatusData(id: number) {
+  getMIStatusData(id: string) {
     this.resetForm();
-    this.inspectionService.getMIStatusData(id);
+    this.inspectionService.getMIStatusData(id);   
   }
 }

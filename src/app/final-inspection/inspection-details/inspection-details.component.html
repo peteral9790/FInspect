@@ -7,56 +7,73 @@
 <form *ngIf="showDetails" #inspectionForm="ngForm" (ngSubmit)="onSubmit(inspectionForm)">
   <input type="hidden" name="Id" #Id="ngModel" [(ngModel)]="inspectionService.selectedInspection.Id">
   <div class="row">
-      <div class="col">
-        <input name="MiStatusBarcode" #MiStatusBarcode="ngModel" [(ngModel)]="inspectionService.selectedInspection.MiStatusBarcode" class="form-control" (blur)="getMIStatusData(inspectionService.selectedInspection.MiStatusBarcode)" placeholder="Mi Status Barcode">
-      </div>      
-    </div>
-    <br />
-  <div class="row">
     <div class="col">
-      <input name="TMSPartNumber" #TMSPartNumber="ngModel" [(ngModel)]="inspectionService.selectedInspection.TMSPartNumber" class="form-control" placeholder="Part Number" required>
-      <div class="validation-error" *ngIf="TMSPartNumber.invalid && TMSPartNumber.touched">This field is required.</div>
-    </div>
-    <div class="col">
-      <input name="EmployeeId" #EmployeeId="ngModel" [(ngModel)]="inspectionService.selectedInspection.EmployeeId" class="form-control" placeholder="Employee Id" required>
-      <div class="validation-error" *ngIf="EmployeeId.invalid && EmployeeId.touched">This field is required.</div>
+      <input name="MiStatusBarcode" #MiStatusBarcode="ngModel" [(ngModel)]="inspectionService.selectedInspection.MiStatusBarcode"
+        class="form-control" (blur)="getMIStatusData(inspectionService.selectedInspection.MiStatusBarcode)" placeholder="Mi Status Barcode">
     </div>
   </div>
   <br />
-  <div *ngIf="inspectionService.MiDetails">
-    <div class="row">
-      <div class="col">
-        <input name="SalesOrder" #SalesOrder="ngModel" [(ngModel)]="inspectionService.MIStatusData.SalesOrder" class="form-control" placeholder="Sales Order" disabled>
-      </div>
-      <div class="col">
-        <input name="MIRev" #MIRev="ngModel" [(ngModel)]="inspectionService.MIStatusData.MIRev" class="form-control" placeholder="MI Rev" disabled>
-      </div>    
-    </div>
-    <br />
-    <div class="row">
-      <div class="col">
-        <input name="Location" #Location="ngModel" [(ngModel)]="inspectionService.MIStatusData.Location" class="form-control" placeholder="Location" disabled>
-      </div>
-      <div class="col">
-        <input name="CustomerName" #CustomerName="ngModel" [(ngModel)]="inspectionService.MIStatusData.CustomerName" class="form-control" placeholder="Customer Name" disabled>
-      </div>
-    </div>
-    <br />
-  </div>
   <div class="row">
     <div class="col">
-      <input name="QuantityInspected" #QuantityInspected="ngModel" [(ngModel)]="inspectionService.selectedInspection.QuantityInspected" class="form-control" placeholder="Quantity Inspected" required>
+      <input name="EmployeeId" #EmployeeId="ngModel" [(ngModel)]="inspectionService.selectedInspection.EmployeeId" class="form-control"
+        placeholder="Employee Id" required>
+      <div class="validation-error" *ngIf="EmployeeId.invalid && EmployeeId.touched">This field is required.</div>
+    </div>
+    <div class="col">
+      <input name="TMSPartNumber" #TMSPartNumber="ngModel" [(ngModel)]="inspectionService.selectedInspection.TMSPartNumber" class="form-control"
+        placeholder="Part Number" required>
+      <div class="validation-error" *ngIf="TMSPartNumber.invalid && TMSPartNumber.touched">This field is required.</div>
+    </div>
+  </div>
+  <br />
+  <!-- <div *ngIf="inspectionService.MiDetails"> -->
+  <div class="row">
+    <div class="col">
+      <input name="SalesOrder" #SalesOrder="ngModel" [(ngModel)]="inspectionService.MIStatusData.SalesOrder" class="form-control"
+        placeholder="Sales Order" [disabled]="inspectionService.MiDetails">
+    </div>
+    <div class="col">
+      <input name="MIRev" #MIRev="ngModel" [(ngModel)]="inspectionService.MIStatusData.MIRev" class="form-control" placeholder="MI Revision"
+        [disabled]="inspectionService.MiDetails">
+    </div>
+  </div>
+  <br />
+  <div class="row">
+    <div class="col">
+      <!-- <input name="MfgLocation" #MfgLocation="ngModel" [(ngModel)]="inspectionService.selectedInspection.MfgLocation" class="form-control" placeholder="Mfg. Location"
+        *ngIf="inspectionService.MiDetails" disabled> -->
+      <!-- <label for="InspectionType">Inspection Type:</label> *ngIf="!inspectionService.MiDetails" -->
+      <select  name="MfgLocation" #MfgLocation="ngModel" [(ngModel)]="inspectionService.selectedInspection.MfgLocation"
+        class="form-control" [disabled]="inspectionService.MiDetails">
+        <option>AZ</option>
+        <option>CT</option>
+        <option>FL</option>
+        <option>MA</option>
+      </select>
+    </div>
+    <div class="col">
+      <input name="CustomerName" #CustomerName="ngModel" [(ngModel)]="inspectionService.MIStatusData.CustomerName" class="form-control"
+        placeholder="Customer Name" [disabled]="inspectionService.MiDetails">
+    </div>
+  </div>
+  <br />
+  <div class="row">
+    <div class="col">
+      <input name="QuantityInspected" #QuantityInspected="ngModel" [(ngModel)]="inspectionService.selectedInspection.QuantityInspected"
+        class="form-control" placeholder="Quantity Inspected" required>
       <div class="validation-error" *ngIf="QuantityInspected.invalid && QuantityInspected.touched">This field is required.</div>
     </div>
     <div class="col">
-        <input name="QuantityAccepted" #QuantityAccepted="ngModel" [(ngModel)]="inspectionService.selectedInspection.QuantityAccepted" class="form-control" placeholder="Quantity Accepted" required>
-        <div class="validation-error" *ngIf="QuantityAccepted.invalid && QuantityAccepted.touched">This field is required.</div>
+      <input name="QuantityAccepted" #QuantityAccepted="ngModel" [(ngModel)]="inspectionService.selectedInspection.QuantityAccepted"
+        class="form-control" placeholder="Quantity Accepted" required>
+      <div class="validation-error" *ngIf="QuantityAccepted.invalid && QuantityAccepted.touched">This field is required.</div>
     </div>
   </div>
-  <br />
-  <div class="row">      
+  <div class="row">
     <div class="col">
-      <select name="InspectionType" #InspectionType="ngModel" [(ngModel)]="inspectionService.selectedInspection.InspectionType" class="form-control" required>
+      <label for="InspectionType">Inspection Type:</label>
+      <select name="InspectionType" #InspectionType="ngModel" [(ngModel)]="inspectionService.selectedInspection.InspectionType"
+        class="form-control" required>
         <option>Final Inspection</option>
         <option>Re-Inspection</option>
         <option>Split-MI</option>
@@ -64,6 +81,16 @@
       </select>
       <!-- <input name="InspectionType" #InspectionType="ngModel" [(ngModel)]="inspectionService.selectedInspection.InspectionType" class="form-control" placeholder="Inspection Type" required>  -->
       <div class="validation-error" *ngIf="InspectionType.invalid && InspectionType.touched">This field is required.</div>
+    </div>
+    <div class="col">
+      <label for="InspectionLocation">Inspection Location:</label>
+      <select name="InspectionLocation" #InspectionLocation="ngModel" [(ngModel)]="inspectionService.selectedInspection.InspectionLocation" class="form-control">
+        <option>TMS - Wallingford</option>
+        <option>TMS - South</option>
+        <option>TMS - West</option>
+        <option>TMS - China</option>
+        <option>EAM</option>
+      </select>
     </div>
   </div>
   <br />
@@ -75,13 +102,13 @@
   </div>
   <br />
   <div class="row">
-      <div class="form-group col-md-8">
-          <button [disabled]="!inspectionForm.valid" type="submit" class="btn btn-lg btn-block btn-success">
-            <i class="fa fa-save"></i> Submit</button>
-        </div>
-      <div class="form-group col-md-4">
-          <button type="button" class="btn btn-lg btn-block btn-primary" (click)="resetForm(inspectionForm)">
-          <i class="fa fa-undo"></i> Reset</button>
-      </div>
+    <div class="form-group col-md-8">
+      <button [disabled]="!inspectionForm.valid" type="submit" class="btn btn-lg btn-block btn-success">
+        <i class="fa fa-save"></i> Submit</button>
+    </div>
+    <div class="form-group col-md-4">
+      <button type="button" class="btn btn-lg btn-block btn-primary" (click)="resetForm(inspectionForm)">
+        <i class="fa fa-undo"></i> Reset</button>
+    </div>
   </div>
 </form>

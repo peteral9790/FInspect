@@ -5,5 +5,7 @@ export class InspectionFilter {
     QuantityInspected: number;
     QuantityAccepted: number;
     InspectionType: number;
+    MfgLocation: number;
+    InspectionLocation: number;
     InspectorName: number;
 }

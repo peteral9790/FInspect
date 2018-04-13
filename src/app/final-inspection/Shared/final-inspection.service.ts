@@ -8,6 +8,7 @@ import { FInspectErrorHandler } from '../../Common/finspect-error-handler';
 import { FinalInspection } from './final-inspection.model';
 import { InspectionFilter } from './inspection-filter.model';
 import { MIStatus } from './mistatus.model';
+import { Assembly } from './assembly.model';
 
 @Injectable()
 export class FinalInspectionService {
@@ -17,6 +18,7 @@ export class FinalInspectionService {
   MiDetails: boolean = false;
   selectedInspection: FinalInspection;
   inspectionHistory: FinalInspection[];
+  assemblyDetails: Assembly;
   MIStatusData: MIStatus;
   currentFilter: InspectionFilter = {
     PartNumber: 0,
@@ -24,6 +26,8 @@ export class FinalInspectionService {
     DateInspected: 0,
     QuantityInspected: 0,
     QuantityAccepted: 0,
+    MfgLocation: 0,
+    InspectionLocation: 0,
     InspectionType: 0,
     InspectorName: 0
   }
@@ -47,7 +51,7 @@ export class FinalInspectionService {
       )
   }
 
-  getMIStatusData(id: number) {
+  getMIStatusData(id: string) {
     this.loadingDetails = true;
     this.http.get('/api/MiStatus/GetMiStatusData/' + id)
       .map((data: Response) => {
@@ -55,6 +59,8 @@ export class FinalInspectionService {
       }).subscribe(data => {
         this.MIStatusData = data;
         this.selectedInspection.TMSPartNumber = data.MINumber;
+        this.selectedInspection.MiStatusBarcode = id;
+        this.selectedInspection.MfgLocation = data.Location;        
         this.MiDetails = true;
         this.loadingDetails = false
       },
@@ -89,6 +95,24 @@ export class FinalInspectionService {
       requestOptions).map(res => res.json());
   }
 
+  getAssemblyDetails(partNumber: string) {
+    this.loadingDetails = true;
+    this.http.get('/api/AssemblyDetails/GetAssemblyDetails/' + partNumber)
+      .map((data: Response) => {
+        return data.json() as Assembly;
+      }).subscribe(data => {
+        this.assemblyDetails = data;
+        console.log(data);
+        this.loadingDetails = false;
+      },
+        err => {
+          this.error = err;
+          this.fInspectErrorHandler.handleError(this.error);
+          this.loadingDetails = false;
+        }
+      )
+  }
+
   resetSelectedInspection() {
     this.selectedInspection = {
       Id: null,
@@ -97,6 +121,8 @@ export class FinalInspectionService {
       QuantityInspected: '',
       QuantityAccepted: '',
       InspectionType: '',
+      MfgLocation: '',
+      InspectionLocation: '',
       InspectorName: '',
       EmployeeId: '',
       DateInspected: ''
@@ -197,6 +223,30 @@ export class FinalInspectionService {
         }
         break;
       }
+      case 'MfgLocation': {
+        if (this.currentFilter.MfgLocation < 1) {
+          this.ascSort('MfgLocation');
+          this.resetCurrentFilters();
+          this.currentFilter.MfgLocation = 1;
+        } else {
+          this.dscSort('MfgLocation');
+          this.resetCurrentFilters();
+          this.currentFilter.MfgLocation = -1;
+        }
+        break;
+      }
+      case 'InspectionLocation': {
+        if (this.currentFilter.InspectionLocation < 1) {
+          this.ascSort('InspectionLocation');
+          this.resetCurrentFilters();
+          this.currentFilter.InspectionLocation = 1;
+        } else {
+          this.dscSort('InspectionLocation');
+          this.resetCurrentFilters();
+          this.currentFilter.InspectionLocation = -1;
+        }
+        break;
+      }
       default: {
         console.log("Invalid choice");
         break;
@@ -228,8 +278,7 @@ export class FinalInspectionService {
   }
   ascPartNumberSort(field: string) {
     this.inspectionHistory.sort((a, b) => {
-      console.log(a[field]);
-      return a.TMSPartNumber.localeCompare(b.TMSPartNumber);      
+      return a.TMSPartNumber.localeCompare(b.TMSPartNumber);
     })
   }
   dscPartNumberSort(field: string) {
@@ -244,6 +293,8 @@ export class FinalInspectionService {
     this.currentFilter.DateInspected = 0;
     this.currentFilter.QuantityInspected = 0;
     this.currentFilter.QuantityAccepted = 0;
+    this.currentFilter.MfgLocation = 0;
+    this.currentFilter.InspectionLocation = 0;
     this.currentFilter.InspectionType = 0;
     this.currentFilter.InspectorName = 0;
   }

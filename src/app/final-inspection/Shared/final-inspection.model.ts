@@ -5,6 +5,8 @@ export class FinalInspection {
     DateInspected: string;
     QuantityInspected: string;
     QuantityAccepted: string;
+    MfgLocation: string;
+    InspectionLocation: string;
     InspectionType: string;
     InspectorName: string;
     EmployeeId: string;
