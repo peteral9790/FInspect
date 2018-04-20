@@ -96,14 +96,15 @@ export class FinalInspectionService {
   }
 
   getAssemblyDetails(partNumber: string) {
+    this.clearAssemblyDetails();
     this.loadingDetails = true;
     this.http.get('/api/AssemblyDetails/GetAssemblyDetails/' + partNumber)
       .map((data: Response) => {
         return data.json() as Assembly;
       }).subscribe(data => {
         this.assemblyDetails = data;
-        console.log(data);
         this.loadingDetails = false;
+        console.log(this.assemblyDetails);
       },
         err => {
           this.error = err;
@@ -111,6 +112,22 @@ export class FinalInspectionService {
           this.loadingDetails = false;
         }
       )
+  }
+
+  clearAssemblyDetails() {
+    this.assemblyDetails = {
+      TMSPartNumber: '',
+      CustomerPartNumber: '',
+      CableMI: '',
+      CableDescription: '',
+      Length: 0,
+      FWDConnType: '',
+      FWDConnector: '',
+      FWDIntermediate: '',
+      AFTIntermediate: '',
+      AFTConnector: '',
+      AFTConnType: ''
+    }
   }
 
   resetSelectedInspection() {
