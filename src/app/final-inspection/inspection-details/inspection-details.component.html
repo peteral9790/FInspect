@@ -43,8 +43,8 @@
       <!-- <input name="MfgLocation" #MfgLocation="ngModel" [(ngModel)]="inspectionService.selectedInspection.MfgLocation" class="form-control" placeholder="Mfg. Location"
         *ngIf="inspectionService.MiDetails" disabled> -->
       <!-- <label for="InspectionType">Inspection Type:</label> *ngIf="!inspectionService.MiDetails" -->
-      <select  name="MfgLocation" #MfgLocation="ngModel" [(ngModel)]="inspectionService.selectedInspection.MfgLocation"
-        class="form-control" [disabled]="inspectionService.MiDetails">
+      <select name="MfgLocation" #MfgLocation="ngModel" [(ngModel)]="inspectionService.selectedInspection.MfgLocation" class="form-control"
+        [disabled]="inspectionService.MiDetails">
         <option>AZ</option>
         <option>CT</option>
         <option>FL</option>
@@ -84,7 +84,8 @@
     </div>
     <div class="col">
       <label for="InspectionLocation">Inspection Location:</label>
-      <select name="InspectionLocation" #InspectionLocation="ngModel" [(ngModel)]="inspectionService.selectedInspection.InspectionLocation" class="form-control">
+      <select name="InspectionLocation" #InspectionLocation="ngModel" [(ngModel)]="inspectionService.selectedInspection.InspectionLocation"
+        class="form-control">
         <option>TMS - Wallingford</option>
         <option>TMS - South</option>
         <option>TMS - West</option>
@@ -94,11 +95,32 @@
     </div>
   </div>
   <br />
-  <div class="col">
-    <label for="fileUpload">Upload Document: </label>
-  </div>
-  <div class="col">
-    <input id="fileUpload" type="file">
+  <div class="row">
+    <!-- <div class="col">
+      <label for="fileUpload">Upload Document: </label>
+    </div>   -->
+    <div class="col-md-4">
+      <input #fileUpload (change)="fileChangeEvent($event)" placeholder="Upload file..." multiple accept=".pdf" id="fileUpload"
+        type="file" />
+      <br />
+    </div>
+    <div class="col">
+      <button class="btn btn-sm btn-primary" type="button" (click)="beginUpload()"><i class="fa fa-upload"></i></button>
+      <button class="btn btn-sm btn-primary" type="button" (click)="cancelUpload()"><i class="fa fa-stop-circle"></i></button>      
+      <div *ngIf="filesToUpload?.length > 0">
+        <br />
+        <p>{{filesToUpload?.length}} files selected : </p>
+      </div>
+      <ul>
+        <li *ngFor="let fileName of selectedFileNames; let i = index">
+          {{fileName}}
+        </li>
+      </ul>
+      <div [innerHtml]="uploadResult"></div>
+      <div style="color:red">
+        {{errorMessage}}
+      </div>
+    </div>
   </div>
   <br />
   <div class="row">

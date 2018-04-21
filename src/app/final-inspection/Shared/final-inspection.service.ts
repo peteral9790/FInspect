@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, ViewChild } from '@angular/core';
 import { Http, Response, Headers, RequestOptions, RequestMethod } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
@@ -32,6 +32,14 @@ export class FinalInspectionService {
     InspectorName: 0
   }
 
+  //Upload Variables
+  uploadErrorMessage: string;
+  public isUploadingFiles: Boolean = false;
+  uploadResult: any;
+  selectedFileNames: Array<string>;
+  filesToUpload: File[];
+  //@ViewChild('fileUpload') fileUploadVar: any;
+
   constructor(private http: Http, private fInspectErrorHandler: FInspectErrorHandler) { }
 
   getData(controllerName, actionName) {
@@ -60,7 +68,7 @@ export class FinalInspectionService {
         this.MIStatusData = data;
         this.selectedInspection.TMSPartNumber = data.MINumber;
         this.selectedInspection.MiStatusBarcode = id;
-        this.selectedInspection.MfgLocation = data.Location;        
+        this.selectedInspection.MfgLocation = data.Location;
         this.MiDetails = true;
         this.loadingDetails = false
       },
@@ -282,6 +290,7 @@ export class FinalInspectionService {
       }
     });
   }
+
   dscSort(field: string) {
     this.inspectionHistory.sort((a, b) => {
       if (a[field] > b[field]) {
@@ -293,11 +302,13 @@ export class FinalInspectionService {
       }
     });
   }
+
   ascPartNumberSort(field: string) {
     this.inspectionHistory.sort((a, b) => {
       return a.TMSPartNumber.localeCompare(b.TMSPartNumber);
     })
   }
+
   dscPartNumberSort(field: string) {
     this.inspectionHistory.sort((a, b) => {
       return (a.TMSPartNumber.localeCompare(b.TMSPartNumber)) * -1;
@@ -314,6 +325,44 @@ export class FinalInspectionService {
     this.currentFilter.InspectionLocation = 0;
     this.currentFilter.InspectionType = 0;
     this.currentFilter.InspectorName = 0;
+  }
+
+  uploadFiles(fileInput: any, fileNames: any) {
+    this.uploadResult = "";
+    this.filesToUpload = fileInput;
+    this.selectedFileNames = fileNames;
+
+    if (this.filesToUpload.length > 0) {
+      this.isUploadingFiles = true;
+      let formData: FormData = new FormData();
+
+      for (var i = 0; i < this.filesToUpload.length; i++ )
+      {
+        formData.append('uploadedFiles', this.filesToUpload[i], this.filesToUpload[i].name)
+      }
+
+      let apiUrl = "/api/FinalInspection/UploadInspectionFiles";
+
+      this.http.post(apiUrl, formData)
+        .map((res: Response) => res.json())
+        .subscribe
+        (
+          data=> {
+            this.uploadResult = data;
+            this.uploadErrorMessage = "";
+          },
+          err => {
+            this.fInspectErrorHandler.handleError(err);
+            this.uploadErrorMessage = err;
+            this.isUploadingFiles = false;
+          },
+          () => {
+            this.isUploadingFiles = false;            
+            this.selectedFileNames = [];
+            this.filesToUpload = [];
+          }
+        )
+    }
   }
 }
 
