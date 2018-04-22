@@ -37,10 +37,14 @@ export class FinalInspectionService {
   public isUploadingFiles: Boolean = false;
   uploadResult: any;
   selectedFileNames: Array<string>;
+  uploadedFileNames: Array<string>;
   filesToUpload: File[];
   //@ViewChild('fileUpload') fileUploadVar: any;
 
-  constructor(private http: Http, private fInspectErrorHandler: FInspectErrorHandler) { }
+  constructor(private http: Http, private fInspectErrorHandler: FInspectErrorHandler) {
+    this.selectedFileNames = [];
+    this.uploadedFileNames = [];
+   }
 
   getData(controllerName, actionName) {
     this.loadingList = true;
@@ -150,7 +154,8 @@ export class FinalInspectionService {
       InspectionLocation: '',
       InspectorName: '',
       EmployeeId: '',
-      DateInspected: ''
+      DateInspected: '',
+      InspectionFiles: null
     }
     this.MIStatusData = {
       Id: null,
@@ -331,38 +336,41 @@ export class FinalInspectionService {
     this.uploadResult = "";
     this.filesToUpload = fileInput;
     this.selectedFileNames = fileNames;
-
     if (this.filesToUpload.length > 0) {
       this.isUploadingFiles = true;
       let formData: FormData = new FormData();
 
-      for (var i = 0; i < this.filesToUpload.length; i++ )
-      {
-        formData.append('uploadedFiles', this.filesToUpload[i], this.filesToUpload[i].name)
+      for (var i = 0; i < this.filesToUpload.length; i++) {
+        formData.append('uploadedFiles', this.filesToUpload[i], this.filesToUpload[i].name);
+        this.uploadedFileNames.push(this.filesToUpload[i].name);        
       }
-
+      console.log(this.uploadedFileNames);
       let apiUrl = "/api/FinalInspection/UploadInspectionFiles";
 
       this.http.post(apiUrl, formData)
         .map((res: Response) => res.json())
         .subscribe
         (
-          data=> {
-            this.uploadResult = data;
-            this.uploadErrorMessage = "";
-          },
-          err => {
-            this.fInspectErrorHandler.handleError(err);
-            this.uploadErrorMessage = err;
-            this.isUploadingFiles = false;
-          },
-          () => {
-            this.isUploadingFiles = false;            
-            this.selectedFileNames = [];
-            this.filesToUpload = [];
-          }
+        data => {
+          this.uploadResult = data;
+          this.uploadErrorMessage = "";
+        },
+        err => {
+          this.fInspectErrorHandler.handleError(err);
+          this.uploadErrorMessage = err;
+          this.isUploadingFiles = false;
+        },
+        () => {
+          this.isUploadingFiles = false;
+          this.selectedFileNames = [];
+          this.filesToUpload = [];
+        }
         )
     }
+  }
+
+  updateFiles() {
+
   }
 }
 

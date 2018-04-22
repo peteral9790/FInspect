@@ -49,8 +49,8 @@ export class InspectionDetailsComponent implements OnInit {
     if (this.filesToUpload.length == 0) {
       alert('Please select at least 1 PDF files to upload!');
     }
-    else if (this.filesToUpload.length > 3) {
-      alert('Please select a maximum of 3 PDF files to upload!');
+    else if (this.filesToUpload.length > 5) {
+      alert('Please select a maximum of 5 PDF files to upload!');
     }
     else {
       if (this.validatePDFSelectedOnly(this.selectedFileNames)) {
@@ -74,43 +74,6 @@ export class InspectionDetailsComponent implements OnInit {
     }
   }
 
-/*   uploadFiles() {
-    this.uploadResult = "";
-
-    if (this.filesToUpload.length > 0) {
-      this.isUploadingFiles = true;
-
-      let formData: FormData = new FormData();
-
-      for (var i = 0; i < this.filesToUpload.length; i++) {
-        formData.append('uploadedFiles', this.filesToUpload[i], this.filesToUpload[i].name);
-      }
-
-      let apiUrl = "/api/Upload/UploadFiles";
-
-      /* this.http.post(apiUrl, formData)
-        .map((res: Response) => res.json())
-        .subscribe
-        (
-        data => {
-          this.uploadResult = data;
-          this.errorMessage = "";
-        },
-        err => {
-          console.error(err);
-          this.errorMessage = err;
-          this.isLoadingData = false;
-        },
-        () => {
-          this.isLoadingData = false,
-            this.fileUploadVar.nativeElement.value = "";
-          this.selectedFileNames = [];
-          this.filesToUpload = [];
-        }
-        );
-    }
-  } */
-
   ngOnInit() {
     this.resetForm();
   }
@@ -129,7 +92,8 @@ export class InspectionDetailsComponent implements OnInit {
       InspectionLocation: '',
       InspectorName: '',
       EmployeeId: '',
-      DateInspected: ''
+      DateInspected: '',
+      InspectionFiles: null
     }
     this.inspectionService.MIStatusData = {
       Id: null,
@@ -151,15 +115,17 @@ export class InspectionDetailsComponent implements OnInit {
         .subscribe(data => {
           this.resetForm(form);
           this.toastr.success('New Record added successfully!', 'Final Inspection');
-          this.inspectionService.getData("FinalInspection", "GetInspections");
-        })
+          this.refreshData();
+          this.inspectionService.uploadedFileNames = [];
+        })   
     } else {
       if (confirm('Are you sure you want to modify this record?') == true) {
         this.inspectionService.putInspection(form.value)
           .subscribe(data => {
             this.resetForm(form);
             this.toastr.info('Record updated successfully!', 'Final Inspection');
-            this.inspectionService.getData("FinalInspection", "GetInspections");
+            this.refreshData();
+            this.inspectionService.uploadedFileNames = [];
           })
       } else {
         this.resetForm(form);

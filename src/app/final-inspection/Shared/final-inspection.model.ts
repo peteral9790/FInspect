@@ -1,3 +1,4 @@
+import { FinalInspectionUpload } from './final-inspection-upload.model';
 export class FinalInspection {
     Id: number;
     TMSPartNumber: string;
@@ -10,4 +11,8 @@ export class FinalInspection {
     InspectionType: string;
     InspectorName: string;
     EmployeeId: string;
+    InspectionFiles: FinalInspectionUpload;
+    constructor() {
+        this.InspectionFiles = new FinalInspectionUpload();
+    }
 }

@@ -40,11 +40,7 @@
   <br />
   <div class="row">
     <div class="col">
-      <!-- <input name="MfgLocation" #MfgLocation="ngModel" [(ngModel)]="inspectionService.selectedInspection.MfgLocation" class="form-control" placeholder="Mfg. Location"
-        *ngIf="inspectionService.MiDetails" disabled> -->
-      <!-- <label for="InspectionType">Inspection Type:</label> *ngIf="!inspectionService.MiDetails" -->
-      <select name="MfgLocation" #MfgLocation="ngModel" [(ngModel)]="inspectionService.selectedInspection.MfgLocation" class="form-control"
-        [disabled]="inspectionService.MiDetails">
+      <select name="MfgLocation" #MfgLocation="ngModel" [(ngModel)]="inspectionService.selectedInspection.MfgLocation" class="form-control">
         <option>AZ</option>
         <option>CT</option>
         <option>FL</option>
@@ -107,16 +103,15 @@
     <div class="col">
       <button class="btn btn-sm btn-primary" type="button" (click)="beginUpload()"><i class="fa fa-upload"></i></button>
       <button class="btn btn-sm btn-primary" type="button" (click)="cancelUpload()"><i class="fa fa-stop-circle"></i></button>      
-      <div *ngIf="filesToUpload?.length > 0">
+      <div *ngIf="inspectionService.uploadedFileNames?.length > 0">
         <br />
-        <p>{{filesToUpload?.length}} files selected : </p>
-      </div>
-      <ul>
-        <li *ngFor="let fileName of selectedFileNames; let i = index">
-          {{fileName}}
-        </li>
-      </ul>
-      <div [innerHtml]="uploadResult"></div>
+        <ul>
+          <li *ngFor="let fileName of inspectionService.uploadedFileNames; let i = index">
+            {{fileName}}
+          </li>
+        </ul>
+      </div>      
+      <!-- <div [innerHtml]="inspectionService.uploadResult"></div> -->
       <div style="color:red">
         {{errorMessage}}
       </div>
