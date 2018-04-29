@@ -12,7 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 export class InspectionDetailsComponent implements OnInit {
   // Upload Variables
   filesToUpload: Array<File>;
-  selectedFileNames: string[] = [];      
+  selectedFileNames: string[] = [];
   res: Array<string>;
   @ViewChild('fileUpload') fileUploadVar: any;
   /* errorMessage: string;
@@ -43,6 +43,9 @@ export class InspectionDetailsComponent implements OnInit {
     this.selectedFileNames = [];
     this.inspectionService.uploadResult = "";
     this.inspectionService.uploadErrorMessage = "";
+    if (confirm('Are you sure you want to remove these files?') == true) {
+      this.inspectionService.uploadedFileNames = [];
+    }
   }
 
   beginUpload() {
@@ -93,7 +96,16 @@ export class InspectionDetailsComponent implements OnInit {
       InspectorName: '',
       EmployeeId: '',
       DateInspected: '',
-      InspectionFiles: null
+      FinalInspectionUploads: [],
+      MiStatus: {
+        Id: null,
+        SalesOrder: '',
+        MINumber: '',
+        MIRev:'',
+        Location:'',
+        CustomerName:''
+      },
+      Assembly: null
     }
     this.inspectionService.MIStatusData = {
       Id: null,
@@ -104,33 +116,36 @@ export class InspectionDetailsComponent implements OnInit {
       CustomerName: '',
     }
     this.inspectionService.MiDetails = false;
+    this.inspectionService.uploadedFileNames = [];
   }
 
   onSubmit(form: NgForm) {
     var id = this.inspectionService.selectedInspection.Id;
     var inspection = this.inspectionService.selectedInspection;
-    console.log(form.value);
-    if (id == null) {
-      this.inspectionService.postInspection(form.value)
-        .subscribe(data => {
-          this.resetForm(form);
-          this.toastr.success('New Record added successfully!', 'Final Inspection');
-          this.refreshData();
-          this.inspectionService.uploadedFileNames = [];
-        })   
-    } else {
-      if (confirm('Are you sure you want to modify this record?') == true) {
-        this.inspectionService.putInspection(form.value)
+    if (inspection != null) {
+      if (id == null) {
+        this.inspectionService.postInspection(inspection)
           .subscribe(data => {
             this.resetForm(form);
-            this.toastr.info('Record updated successfully!', 'Final Inspection');
+            this.toastr.success('New Record added successfully!', 'Final Inspection');
             this.refreshData();
             this.inspectionService.uploadedFileNames = [];
           })
       } else {
-        this.resetForm(form);
+        if (confirm('Are you sure you want to modify this record?') == true) {
+          this.inspectionService.putInspection(form.value)
+            .subscribe(data => {
+              this.resetForm(form);
+              this.toastr.info('Record updated successfully!', 'Final Inspection');
+              this.refreshData();
+              this.inspectionService.uploadedFileNames = [];
+            })
+        } else {
+          this.resetForm(form);
+        }
       }
     }
+
   }
 
   refreshData() {

@@ -1,4 +1,5 @@
-import { FinalInspectionUpload } from './final-inspection-upload.model';
+import{Assembly} from './assembly.model';
+import{MIStatus} from './mistatus.model';
 export class FinalInspection {
     Id: number;
     TMSPartNumber: string;
@@ -11,8 +12,7 @@ export class FinalInspection {
     InspectionType: string;
     InspectorName: string;
     EmployeeId: string;
-    InspectionFiles: FinalInspectionUpload;
-    constructor() {
-        this.InspectionFiles = new FinalInspectionUpload();
-    }
+    FinalInspectionUploads: string[];
+    MiStatus: MIStatus;
+    Assembly: Assembly;
 }

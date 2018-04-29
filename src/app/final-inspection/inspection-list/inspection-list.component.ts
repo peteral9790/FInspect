@@ -45,8 +45,7 @@ export class InspectionListComponent implements OnInit {
     this.inspectionService.getAssemblyDetails(partNumber);
   }
 
-  editInspection(inspection: FinalInspection) {
-    
+  editInspection(inspection: FinalInspection) {    
     this.inspectionService.selectedInspection = Object.assign({}, inspection);
   }
 
