@@ -44,6 +44,7 @@ export class FinalInspectionService {
   constructor(private http: Http, private fInspectErrorHandler: FInspectErrorHandler) {
     this.selectedFileNames = [];
     this.uploadedFileNames = [];
+    this.resetSelectedInspection();
   }
 
   updateFiles() {
@@ -80,7 +81,8 @@ export class FinalInspectionService {
         this.selectedInspection.MiStatusBarcode = id;
         this.selectedInspection.MfgLocation = data.Location;
         this.MiDetails = true;
-        this.loadingDetails = false
+        this.loadingDetails = false;
+        console.log(this.selectedInspection);
       },
         err => {
           this.error = err;
@@ -121,6 +123,7 @@ export class FinalInspectionService {
         return data.json() as Assembly;
       }).subscribe(data => {
         this.assemblyDetails = data;
+        this.selectedInspection.Assembly = data;
         this.loadingDetails = false;
         console.log(this.assemblyDetails);
       },

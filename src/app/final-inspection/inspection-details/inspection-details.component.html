@@ -30,11 +30,11 @@
   <!-- <div *ngIf="inspectionService.MiDetails"> -->
   <div class="row">
     <div class="col">
-      <input name="SalesOrder" #SalesOrder="ngModel" [(ngModel)]="inspectionService.selectedInspection.MiStatus.SalesOrder" class="form-control"
+      <input name="MiStatus.SalesOrder" #MiStatus.SalesOrder="ngModel" [(ngModel)]="inspectionService.selectedInspection.MiStatus.SalesOrder" class="form-control"
         placeholder="Sales Order" [disabled]="inspectionService.MiDetails">
     </div>
     <div class="col">
-      <input name="MIRev" #MIRev="ngModel" [(ngModel)]="inspectionService.selectedInspection.MiStatus.MIRev" class="form-control" placeholder="MI Revision"
+      <input name="MiStatus.MIRev" #MiStatus.MIRev="ngModel" [(ngModel)]="inspectionService.selectedInspection.MiStatus.MIRev" class="form-control" placeholder="MI Revision"
         [disabled]="inspectionService.MiDetails">
     </div>
   </div>
@@ -49,7 +49,7 @@
       </select>
     </div>
     <div class="col">
-      <input name="CustomerName" #CustomerName="ngModel" [(ngModel)]="inspectionService.selectedInspection.MiStatus.CustomerName" class="form-control"
+      <input name="MiStatus.CustomerName" #MiStatus.CustomerName="ngModel" [(ngModel)]="inspectionService.selectedInspection.MiStatus.CustomerName" class="form-control"
         placeholder="Customer Name" [disabled]="inspectionService.MiDetails">
     </div>
   </div>
@@ -102,6 +102,7 @@
       <br />
     </div>
     <div class="col">
+      <i class="fa fa-spinner fa-spin" align="center" *ngIf="inspectionService.isUploadingFiles" style="font-size:25px"></i>
       <button class="btn btn-sm btn-primary" type="button" (click)="beginUpload()"><i class="fa fa-upload"></i></button>
       <button class="btn btn-sm btn-primary" type="button" (click)="cancelUpload()"><i class="fa fa-stop-circle"></i></button>      
       <!-- <div *ngIf="inspectionService.uploadedFileNames?.length > 0">

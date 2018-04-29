@@ -45,6 +45,7 @@ export class InspectionDetailsComponent implements OnInit {
     this.inspectionService.uploadErrorMessage = "";
     if (confirm('Are you sure you want to remove these files?') == true) {
       this.inspectionService.uploadedFileNames = [];
+      this.inspectionService.selectedInspection.FinalInspectionUploads = [];
     }
   }
 

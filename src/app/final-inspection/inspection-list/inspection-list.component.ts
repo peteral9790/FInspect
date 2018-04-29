@@ -42,11 +42,15 @@ export class InspectionListComponent implements OnInit {
   }
 
   getAssemblyDetails(partNumber?: string) {
-    this.inspectionService.getAssemblyDetails(partNumber);
+    if (partNumber !== null){
+      this.inspectionService.getAssemblyDetails(partNumber);
+    }    
   }
 
   editInspection(inspection: FinalInspection) {    
-    this.inspectionService.selectedInspection = Object.assign({}, inspection);
+    this.inspectionService.getMIStatusData(inspection.MiStatusBarcode);
+    this.inspectionService.getAssemblyDetails(inspection.TMSPartNumber);
+    this.inspectionService.selectedInspection = Object.assign({}, inspection);    
   }
 
   filterTable(field: string) {

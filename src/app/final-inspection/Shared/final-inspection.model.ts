@@ -13,6 +13,12 @@ export class FinalInspection {
     InspectorName: string;
     EmployeeId: string;
     FinalInspectionUploads: string[];
-    MiStatus: MIStatus;
-    Assembly: Assembly;
+    MiStatus?: MIStatus;
+    Assembly?: Assembly;
+
+    /* constructor () {
+        if(!this.MiStatus){
+            this.MiStatus={};
+        }
+    } */
 }
