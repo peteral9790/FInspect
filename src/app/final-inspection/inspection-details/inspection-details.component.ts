@@ -102,9 +102,9 @@ export class InspectionDetailsComponent implements OnInit {
         Id: null,
         SalesOrder: '',
         MINumber: '',
-        MIRev:'',
-        Location:'',
-        CustomerName:''
+        MIRev: '',
+        Location: '',
+        CustomerName: ''
       },
       Assembly: null
     }
@@ -118,6 +118,7 @@ export class InspectionDetailsComponent implements OnInit {
     }
     this.inspectionService.MiDetails = false;
     this.inspectionService.uploadedFileNames = [];
+    this.refreshData();
   }
 
   onSubmit(form: NgForm) {
@@ -134,7 +135,7 @@ export class InspectionDetailsComponent implements OnInit {
           })
       } else {
         if (confirm('Are you sure you want to modify this record?') == true) {
-          this.inspectionService.putInspection(form.value)
+          this.inspectionService.putInspection(inspection)
             .subscribe(data => {
               this.resetForm(form);
               this.toastr.info('Record updated successfully!', 'Final Inspection');
@@ -165,4 +166,18 @@ export class InspectionDetailsComponent implements OnInit {
     this.resetForm();
     this.inspectionService.getMIStatusData(id);
   }
+
+  removeAttachment(fileName?: string) {
+    var uploads = this.inspectionService.selectedInspection.FinalInspectionUploads;
+    uploads.forEach((item, index) => {
+      if (item === fileName) uploads.splice(index, 1);
+    });
+  };
+  /* for (var i = 0; i < uploads.length; i++) {
+    if (uploads[i] = fileName) {
+      uploads.splice(i, 1);
+      this.inspectionService.selectedInspection.FinalInspectionUploads = uploads;
+      console.log(this.inspectionService.selectedInspection.FinalInspectionUploads);
+    }
+  } */
 }

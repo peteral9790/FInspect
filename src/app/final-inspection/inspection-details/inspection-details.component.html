@@ -28,14 +28,15 @@
   </div>
   <br />
   <!-- <div *ngIf="inspectionService.MiDetails"> -->
-  <div class="row">
+  <div class="row" *ngIf="inspectionService.selectedInspection.MiStatus">
+    <!-- <div class="row"> -->
     <div class="col">
-      <input name="MiStatus.SalesOrder" #MiStatus.SalesOrder="ngModel" [(ngModel)]="inspectionService.selectedInspection.MiStatus.SalesOrder" class="form-control"
-        placeholder="Sales Order" [disabled]="inspectionService.MiDetails">
+      <input name="SalesOrder" #MiStatus.SalesOrder="ngModel" [(ngModel)]="inspectionService.selectedInspection.MiStatus.SalesOrder"
+        class="form-control" placeholder="Sales Order" [disabled]="inspectionService.MiDetails">
     </div>
     <div class="col">
-      <input name="MiStatus.MIRev" #MiStatus.MIRev="ngModel" [(ngModel)]="inspectionService.selectedInspection.MiStatus.MIRev" class="form-control" placeholder="MI Revision"
-        [disabled]="inspectionService.MiDetails">
+      <input name="MIRev" #MiStatus.MIRev="ngModel" [(ngModel)]="inspectionService.selectedInspection.MiStatus.MIRev" class="form-control"
+        placeholder="MI Revision" [disabled]="inspectionService.MiDetails">
     </div>
   </div>
   <br />
@@ -48,9 +49,9 @@
         <option>MA</option>
       </select>
     </div>
-    <div class="col">
-      <input name="MiStatus.CustomerName" #MiStatus.CustomerName="ngModel" [(ngModel)]="inspectionService.selectedInspection.MiStatus.CustomerName" class="form-control"
-        placeholder="Customer Name" [disabled]="inspectionService.MiDetails">
+    <div class="col" *ngIf="inspectionService.selectedInspection.MiStatus">
+      <input name="CustomerName" #MiStatus.CustomerName="ngModel" [(ngModel)]="inspectionService.selectedInspection.MiStatus.CustomerName"
+        class="form-control" placeholder="Customer Name" [disabled]="inspectionService.MiDetails">
     </div>
   </div>
   <br />
@@ -103,8 +104,12 @@
     </div>
     <div class="col">
       <i class="fa fa-spinner fa-spin" align="center" *ngIf="inspectionService.isUploadingFiles" style="font-size:25px"></i>
-      <button class="btn btn-sm btn-primary" type="button" (click)="beginUpload()"><i class="fa fa-upload"></i></button>
-      <button class="btn btn-sm btn-primary" type="button" (click)="cancelUpload()"><i class="fa fa-stop-circle"></i></button>      
+      <button class="btn btn-sm btn-primary" type="button" (click)="beginUpload()">
+        <i class="fa fa-upload"></i>
+      </button>
+      <button class="btn btn-sm btn-primary" type="button" (click)="cancelUpload()">
+        <i class="fa fa-stop-circle"></i>
+      </button>
       <!-- <div *ngIf="inspectionService.uploadedFileNames?.length > 0">
         <br />
         <ul>
@@ -112,15 +117,16 @@
             {{fileName}}
           </li>          
         </ul>
-      </div>   --> 
+      </div>   -->
       <div *ngIf="inspectionService.selectedInspection.FinalInspectionUploads?.length > 0">
         <br />
         <ul>
-          <li *ngFor="let file of inspectionService.selectedInspection.FinalInspectionUploads; let j = index">
+          <li style="list-style-type: none;" *ngFor="let file of inspectionService.selectedInspection?.FinalInspectionUploads; let j = index">
+            <i style="color:#ff3a3a; cursor: pointer;" class="fa fa-trash" (click)="removeAttachment(file)"></i>
             {{file}}
-          </li>          
+          </li>
         </ul>
-      </div>     
+      </div>
       <!-- <div [innerHtml]="inspectionService.uploadResult"></div> -->
       <div style="color:red">
         {{errorMessage}}

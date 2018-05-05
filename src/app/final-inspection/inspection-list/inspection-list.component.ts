@@ -49,7 +49,7 @@ export class InspectionListComponent implements OnInit {
 
   editInspection(inspection: FinalInspection) {    
     this.inspectionService.getMIStatusData(inspection.MiStatusBarcode);
-    this.inspectionService.getAssemblyDetails(inspection.TMSPartNumber);
+    this.getAssemblyDetails(inspection.TMSPartNumber);
     this.inspectionService.selectedInspection = Object.assign({}, inspection);    
   }
 

@@ -71,6 +71,7 @@ export class FinalInspectionService {
 
   getMIStatusData(id: string) {
     this.loadingDetails = true;
+    this.selectedInspection.MiStatus = new MIStatus();
     this.http.get('/api/MiStatus/GetMiStatusData/' + id)
       .map((data: Response) => {
         return data.json() as MIStatus;
@@ -93,7 +94,7 @@ export class FinalInspectionService {
   }
 
   postInspection(inspection: FinalInspection) {
-    var body = JSON.stringify(inspection);
+    var body = JSON.stringify(inspection);    
     var headerOptions = new Headers({ 'Content-Type': 'application/json' });
     var requestOptions = new RequestOptions({ method: RequestMethod.Post, headers: headerOptions });
     return this.http
@@ -108,6 +109,7 @@ export class FinalInspectionService {
 
   putInspection(inspection: FinalInspection) {
     var body = JSON.stringify(inspection);
+    console.log(body);
     var headerOptions = new Headers({ 'Content-Type': 'application/json' });
     var requestOptions = new RequestOptions({ method: RequestMethod.Put, headers: headerOptions });
     return this.http.put('/api/FinalInspection/UpdateInspection/' + inspection.Id,
@@ -125,7 +127,6 @@ export class FinalInspectionService {
         this.assemblyDetails = data;
         this.selectedInspection.Assembly = data;
         this.loadingDetails = false;
-        console.log(this.assemblyDetails);
       },
         err => {
           this.error = err;

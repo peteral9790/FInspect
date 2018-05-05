@@ -1,5 +1,5 @@
-import{Assembly} from './assembly.model';
-import{MIStatus} from './mistatus.model';
+import { Assembly } from './assembly.model';
+import { MIStatus } from './mistatus.model';
 export class FinalInspection {
     Id: number;
     TMSPartNumber: string;
@@ -16,9 +16,16 @@ export class FinalInspection {
     MiStatus?: MIStatus;
     Assembly?: Assembly;
 
-    /* constructor () {
-        if(!this.MiStatus){
-            this.MiStatus={};
+    constructor() {
+        if (!this.MiStatus) {
+            this.MiStatus = {
+                Id: null,
+                SalesOrder: '',
+                MINumber: '',
+                MIRev: '',
+                Location: '',
+                CustomerName: ''
+            };
         }
-    } */
+    }
 }
