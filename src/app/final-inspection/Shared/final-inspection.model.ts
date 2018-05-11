@@ -1,5 +1,8 @@
 import { Assembly } from './assembly.model';
 import { MIStatus } from './mistatus.model';
+import { FinalInspectionUpload } from './final-inspection-upload.model';
+import { UploadList } from './upload-list.model';
+
 export class FinalInspection {
     Id: number;
     TMSPartNumber: string;
@@ -12,7 +15,7 @@ export class FinalInspection {
     InspectionType: string;
     InspectorName: string;
     EmployeeId: string;
-    FinalInspectionUploads: string[];
+    FinalInspectionUploads: FinalInspectionUpload[];
     MiStatus?: MIStatus;
     Assembly?: Assembly;
 
@@ -27,5 +30,20 @@ export class FinalInspection {
                 CustomerName: ''
             };
         }
-    }
+        if (!this.Assembly) {
+            this.Assembly = {
+                TMSPartNumber: '',
+                CustomerPartNumber: '',
+                CableMI: '',
+                CableDescription: '',
+                Length: null,
+                FWDConnType: '',
+                FWDConnector: '',
+                FWDIntermediate: '',
+                AFTIntermediate: '',
+                AFTConnector: '',
+                AFTConnType: ''
+            };
+        }
+    }  
 }

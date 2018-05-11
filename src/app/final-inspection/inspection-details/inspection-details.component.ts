@@ -170,7 +170,7 @@ export class InspectionDetailsComponent implements OnInit {
   removeAttachment(fileName?: string) {
     var uploads = this.inspectionService.selectedInspection.FinalInspectionUploads;
     uploads.forEach((item, index) => {
-      if (item === fileName) uploads.splice(index, 1);
+      if (item.Attachment === fileName) uploads.splice(index, 1);
     });
   };
   /* for (var i = 0; i < uploads.length; i++) {

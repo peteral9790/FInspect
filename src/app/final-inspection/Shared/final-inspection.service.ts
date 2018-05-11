@@ -6,9 +6,11 @@ import 'rxjs/add/operator/toPromise';
 import { FInspectErrorHandler } from '../../Common/finspect-error-handler';
 
 import { FinalInspection } from './final-inspection.model';
+import { FinalInspectionUpload } from './final-inspection-upload.model';
 import { InspectionFilter } from './inspection-filter.model';
 import { MIStatus } from './mistatus.model';
 import { Assembly } from './assembly.model';
+import { UploadList } from './upload-list.model';
 
 @Injectable()
 export class FinalInspectionService {
@@ -51,7 +53,7 @@ export class FinalInspectionService {
 
   }
 
-  
+
   getData(controllerName, actionName) {
     this.loadingList = true;
     this.http.get('/api/' + controllerName + "/" + actionName)
@@ -94,7 +96,7 @@ export class FinalInspectionService {
   }
 
   postInspection(inspection: FinalInspection) {
-    var body = JSON.stringify(inspection);    
+    var body = JSON.stringify(inspection);
     var headerOptions = new Headers({ 'Content-Type': 'application/json' });
     var requestOptions = new RequestOptions({ method: RequestMethod.Post, headers: headerOptions });
     return this.http
@@ -170,9 +172,9 @@ export class FinalInspectionService {
         Id: null,
         SalesOrder: '',
         MINumber: '',
-        MIRev:'',
-        Location:'',
-        CustomerName:''
+        MIRev: '',
+        Location: '',
+        CustomerName: ''
       },
       Assembly: null
     }
@@ -190,18 +192,24 @@ export class FinalInspectionService {
     this.uploadResult = "";
     this.filesToUpload = fileInput;
     this.selectedFileNames = fileNames;
-    this.uploadedFileNames = this.selectedInspection.FinalInspectionUploads;
-    
+    let selectedInspection = this.selectedInspection;
+    this.uploadedFileNames = this.getListFromObjects(selectedInspection.FinalInspectionUploads);
+
+
+    /* for (let upload of this.selectedInspection.FinalInspectionUploads) {
+      alert(upload.Attachment);
+    } */
+
     if (this.filesToUpload.length > 0) {
       this.isUploadingFiles = true;
       let formData: FormData = new FormData();
 
       for (var i = 0; i < this.filesToUpload.length; i++) {
         formData.append('uploadedFiles', this.filesToUpload[i], this.filesToUpload[i].name);
-        this.uploadedFileNames.push(this.filesToUpload[i].name);    
+        this.uploadedFileNames.push(this.filesToUpload[i].name);
       }
-      
-      
+
+
       let apiUrl = "/api/FinalInspection/UploadInspectionFiles";
 
       this.http.post(apiUrl, formData)
@@ -210,8 +218,9 @@ export class FinalInspectionService {
         (
         data => {
           this.uploadResult = data;
-          this.uploadErrorMessage = "";      
-          this.selectedInspection.FinalInspectionUploads = this.uploadedFileNames;    
+          this.uploadErrorMessage = "";
+          //this.selectedInspection.FinalInspectionUploads = this.uploadedFileNames;
+          selectedInspection.FinalInspectionUploads = this.getObjectsFromList(this.uploadedFileNames);
         },
         err => {
           this.fInspectErrorHandler.handleError(err);
@@ -225,6 +234,25 @@ export class FinalInspectionService {
         }
         )
     }
+  }
+
+  public getListFromObjects(objUploads: FinalInspectionUpload[]): string[] {
+    var strUploads: string[] = [];
+    for (let upload of objUploads) {
+      let newUpload: string;
+      newUpload = upload.Attachment;
+      strUploads.push(newUpload);
+    }
+    return strUploads;
+  }  
+  public getObjectsFromList(strUploads: string[]): FinalInspectionUpload[] {
+    let objUploads: FinalInspectionUpload[]=[];
+    for (let upload of strUploads) {
+        var newUpload = new FinalInspectionUpload();
+        newUpload.Attachment = upload;
+        objUploads.push(newUpload);
+    }
+    return objUploads;
   }
 
   inspectionSort(field: string) {

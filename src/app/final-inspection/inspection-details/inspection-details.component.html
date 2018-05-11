@@ -122,8 +122,8 @@
         <br />
         <ul>
           <li style="list-style-type: none;" *ngFor="let file of inspectionService.selectedInspection?.FinalInspectionUploads; let j = index">
-            <i style="color:#ff3a3a; cursor: pointer;" class="fa fa-trash" (click)="removeAttachment(file)"></i>
-            {{file}}
+            <i style="color:#ff3a3a; cursor: pointer;" class="fa fa-trash" (click)="removeAttachment(file.Attachment)"></i>
+            {{file.Attachment}}
           </li>
         </ul>
       </div>
