@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { FinalInspectionService } from '../shared/final-inspection.service';
 import { NgIf } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-inspection-details',
@@ -172,12 +173,17 @@ export class InspectionDetailsComponent implements OnInit {
     uploads.forEach((item, index) => {
       if (item.Attachment === fileName) uploads.splice(index, 1);
     });
-  };
-  /* for (var i = 0; i < uploads.length; i++) {
-    if (uploads[i] = fileName) {
-      uploads.splice(i, 1);
-      this.inspectionService.selectedInspection.FinalInspectionUploads = uploads;
-      console.log(this.inspectionService.selectedInspection.FinalInspectionUploads);
-    }
-  } */
+  }
+
+  downloadAttachment(id?: number) {
+    this.inspectionService.getFile(id).subscribe(data => this.downloadFile(data)),
+      error => console.log("Error downloading file"),
+      () => console.info("OK");
+  }
+
+  downloadFile(data: any) {
+    var fileName = data.headers.get('content-disposition').split("=")[1];
+    var blob = new Blob([data], {type:'application/pdf'});
+    saveAs(blob, fileName);
+  }
 }

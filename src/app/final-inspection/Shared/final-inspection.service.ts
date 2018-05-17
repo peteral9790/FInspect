@@ -49,10 +49,18 @@ export class FinalInspectionService {
     this.resetSelectedInspection();
   }
 
-  updateFiles() {
-
+  getFile(id: number) {
+      return this.http.get('/api/finalinspection/downloadfiles/' + id)
+      .map(res=> {
+        return res;
+      });
   }
 
+  downloadFile(data: any) {
+    var blob = new Blob([data], {type:'application/pdf'});
+    var url = window.URL.createObjectURL(blob);
+    window.open(url);
+  }
 
   getData(controllerName, actionName) {
     this.loadingList = true;
