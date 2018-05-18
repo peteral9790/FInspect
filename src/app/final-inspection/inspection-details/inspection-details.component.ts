@@ -3,7 +3,6 @@ import { NgForm } from '@angular/forms';
 import { FinalInspectionService } from '../shared/final-inspection.service';
 import { NgIf } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
-import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-inspection-details',
@@ -16,9 +15,6 @@ export class InspectionDetailsComponent implements OnInit {
   selectedFileNames: string[] = [];
   res: Array<string>;
   @ViewChild('fileUpload') fileUploadVar: any;
-  /* errorMessage: string;
-  public isUploadingFiles: Boolean = false;
-  uploadResult: any; */
 
   showDetails: boolean = true;
   constructor(private inspectionService: FinalInspectionService, private toastr: ToastrService) {
@@ -176,14 +172,6 @@ export class InspectionDetailsComponent implements OnInit {
   }
 
   downloadAttachment(id?: number) {
-    this.inspectionService.getFile(id).subscribe(data => this.downloadFile(data)),
-      error => console.log("Error downloading file"),
-      () => console.info("OK");
-  }
-
-  downloadFile(data: any) {
-    var fileName = data.headers.get('content-disposition').split("=")[1];
-    var blob = new Blob([data], {type:'application/pdf'});
-    saveAs(blob, fileName);
+    document.location.href = '/api/finalinspection/downloadfiles/' + id;
   }
 }

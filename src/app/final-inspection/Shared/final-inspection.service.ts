@@ -41,25 +41,11 @@ export class FinalInspectionService {
   selectedFileNames: string[] = [];
   uploadedFileNames: string[] = [];
   filesToUpload: File[];
-  //@ViewChild('fileUpload') fileUploadVar: any;
 
   constructor(private http: Http, private fInspectErrorHandler: FInspectErrorHandler) {
     this.selectedFileNames = [];
     this.uploadedFileNames = [];
     this.resetSelectedInspection();
-  }
-
-  getFile(id: number) {
-      return this.http.get('/api/finalinspection/downloadfiles/' + id)
-      .map(res=> {
-        return res;
-      });
-  }
-
-  downloadFile(data: any) {
-    var blob = new Blob([data], {type:'application/pdf'});
-    var url = window.URL.createObjectURL(blob);
-    window.open(url);
   }
 
   getData(controllerName, actionName) {
@@ -186,14 +172,6 @@ export class FinalInspectionService {
       },
       Assembly: null
     }
-    /* this.MIStatusData = {
-      Id: null,
-      SalesOrder: '',
-      MINumber: '',
-      MIRev: '',
-      Location: '',
-      CustomerName: '',
-    } */
   }
 
   uploadFiles(fileInput: any, fileNames: any) {
@@ -202,11 +180,6 @@ export class FinalInspectionService {
     this.selectedFileNames = fileNames;
     let selectedInspection = this.selectedInspection;
     this.uploadedFileNames = this.getListFromObjects(selectedInspection.FinalInspectionUploads);
-
-
-    /* for (let upload of this.selectedInspection.FinalInspectionUploads) {
-      alert(upload.Attachment);
-    } */
 
     if (this.filesToUpload.length > 0) {
       this.isUploadingFiles = true;
